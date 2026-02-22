@@ -42,7 +42,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowUpRight } from "lucide-react"
+import { ArrowUpRight, Mail, Phone, MapPin } from "lucide-react"
 import { useRef, useEffect } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
@@ -267,9 +267,12 @@ export default function Footer() {
                         Contact Info
                     </h3>
                     <ul className="space-y-4 text-sm text-[#111111]/60">
-                        <li className="flex items-start gap-2">
-                            {/* aria-hidden: screen reader doesn't need to say "envelope emoji" */}
-                            <span aria-hidden="true">📧</span>
+                        <li className="flex items-center gap-2.5">
+                            <Mail
+                                size={14}
+                                aria-hidden="true"
+                                className="shrink-0 text-[#F97316]"
+                            />
                             <a
                                 href="mailto:info@7zero.media"
                                 aria-label="Email us at info@7zero.media"
@@ -278,8 +281,12 @@ export default function Footer() {
                                 info@7zero.media
                             </a>
                         </li>
-                        <li className="flex items-start gap-2">
-                            <span aria-hidden="true">�</span>
+                        <li className="flex items-center gap-2.5">
+                            <Phone
+                                size={14}
+                                aria-hidden="true"
+                                className="shrink-0 text-[#F97316]"
+                            />
                             <a
                                 href="tel:+919961348942"
                                 aria-label="Call us at +91 9961348942"

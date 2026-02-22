@@ -161,12 +161,12 @@ export default function Navbar() {
     return (
         <div
             ref={wrapperRef}
-            className="fixed top-4 inset-x-0 z-50 flex items-center justify-between px-6 md:px-10 py-1 pointer-events-none"
+            className="fixed top-4 inset-x-0 z-50 flex items-center justify-between px-4 sm:px-6 md:px-10 py-1 max-w-7xl mx-auto min-w-0"
             onKeyDown={handleKeyDown}
         >
 
             {/* ── LEFT · Logo ──────────────────────────────────────── */}
-            <div ref={logoRef} className="pointer-events-auto flex items-center shrink-0">
+            <div ref={logoRef} className="flex items-center shrink-0">
                 <Link href="/" aria-label="7ZeroMedia — Go to homepage">
                     <Image
                         src="/logo.png"
@@ -184,7 +184,7 @@ export default function Navbar() {
                 ref={navRef}
                 aria-label="Primary navigation"
                 className={[
-                    "pointer-events-auto hidden md:flex items-center px-9 py-3.5",
+                    "hidden md:flex items-center px-9 py-3.5",
                     "rounded-full border bg-white/60 backdrop-blur-xl ring-1 ring-black/5",
                     "transition-[border-color,box-shadow] duration-300",
                     pillScrollClass,
@@ -206,7 +206,7 @@ export default function Navbar() {
             </nav>
 
             {/* ── RIGHT · CTA (desktop) + Hamburger (mobile) ───────── */}
-            <div ref={ctaRef} className="pointer-events-auto flex items-center shrink-0">
+            <div ref={ctaRef} className="flex items-center shrink-0">
 
                 {/* Desktop CTA — plain <Link>, no Button wrapper */}
                 <Link
@@ -241,9 +241,8 @@ export default function Navbar() {
                 role="dialog"
                 aria-modal="true"
                 aria-label="Mobile navigation"
-                hidden={!menuOpen}
                 className={[
-                    "pointer-events-auto absolute top-[calc(100%+8px)] left-4 right-4",
+                    "fixed inset-x-4 top-20",
                     "md:hidden flex flex-col gap-1 px-4 py-4",
                     "rounded-2xl border border-white/40 bg-white/85 backdrop-blur-xl",
                     "shadow-[0_8px_32px_rgba(17,17,17,0.10)]",

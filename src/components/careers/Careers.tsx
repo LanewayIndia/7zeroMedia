@@ -70,7 +70,7 @@
 import { useState, useRef, useEffect, useCallback, useId } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { ArrowLeft, UploadCloud, Loader2 } from "lucide-react"
+import { ArrowLeft, UploadCloud, Loader2, CheckCircle2 } from "lucide-react"
 import { useAppDispatch, useAppSelector } from "@/store/hooks"
 import {
     submitCareers,
@@ -547,7 +547,11 @@ export default function Careers() {
                         {status === "success" ? (
                             <div role="status" aria-live="polite" className="text-center py-12">
                                 <div aria-hidden="true" className="w-14 h-14 rounded-full bg-[#F97316]/10 flex items-center justify-center mb-5 mx-auto">
-                                    <span className="text-2xl">✦</span>
+                                    <CheckCircle2
+                                        size={26}
+                                        aria-hidden="true"
+                                        className="text-[#F97316]"
+                                    />
                                 </div>
                                 <h3
                                     ref={successHeadRef}

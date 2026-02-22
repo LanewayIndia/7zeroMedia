@@ -324,9 +324,8 @@ export default function About() {
             style={{ transformStyle: "preserve-3d" }}
           >
             <video
-              src="/about-video.mp4"
-              autoPlay
-              muted
+              src="/about-video1.mp4"
+              controls
               loop
               playsInline
               // preload=metadata: fetches only video metadata (duration,

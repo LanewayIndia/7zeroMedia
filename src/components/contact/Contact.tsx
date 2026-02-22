@@ -47,7 +47,7 @@
 import { useRef, useEffect, useState, useCallback, useId } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { ArrowUpRight, Mail, Phone, MapPin, Send, Loader2 } from "lucide-react"
+import { ArrowUpRight, Mail, Phone, MapPin, Send, Loader2, CheckCircle2 } from "lucide-react"
 import { useAppDispatch, useAppSelector } from "@/store/hooks"
 import {
     submitContact,
@@ -539,7 +539,11 @@ export default function Contact() {
                                 className="border border-[#F97316]/25 bg-[#F97316]/5 rounded-3xl p-10 text-center min-h-[500px] flex flex-col items-center justify-center"
                             >
                                 <div aria-hidden="true" className="w-16 h-16 rounded-full bg-[#F97316]/10 flex items-center justify-center mb-6 mx-auto">
-                                    <span className="text-2xl">✦</span>
+                                    <CheckCircle2
+                                        size={28}
+                                        aria-hidden="true"
+                                        className="text-[#F97316]"
+                                    />
                                 </div>
                                 <h3
                                     ref={successHeadRef}

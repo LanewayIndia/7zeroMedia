@@ -254,7 +254,7 @@ html {
 
 html,
 body {
-  overflow-x: clip;
+  overflow-x: hidden;
 }
 
 /* Global container utility used across layouts */

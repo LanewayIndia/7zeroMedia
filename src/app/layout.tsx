@@ -3,6 +3,7 @@
 import type { Metadata, Viewport } from "next"
 import { Playfair_Display, Inter } from "next/font/google"
 import PageTransition from "@/components/PageTransition"
+import ReduxProvider from "@/app/providers"
 import "./globals.css"
 
 /* ─── Fonts ───────────────────────────────────────────────────────────────── */
@@ -133,7 +134,7 @@ export const metadata: Metadata = {
   ──────────────────────────────────────────────────────────────────────── */
   twitter: {
     card: "summary_large_image",
-    title: "7ZeroMedia — AI-Powered Growths for Modern Brands",
+    title: "7ZeroMedia — AI-Powered Growth for Modern Brands",
     description:
       "AI-driven brand strategy, content creation, social media, and cinematic production — one growth engine for ambitious brands.",
     images: [OG_IMAGE.url],
@@ -292,9 +293,11 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans bg-background text-foreground">
-        <PageTransition>
-          {children}
-        </PageTransition>
+        <ReduxProvider>
+          <PageTransition>
+            {children}
+          </PageTransition>
+        </ReduxProvider>
       </body>
     </html>
   )

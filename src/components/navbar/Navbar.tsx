@@ -25,6 +25,12 @@ import { useRef, useEffect, useState, useCallback, useId } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { X, Menu } from "lucide-react"
+import { useAppDispatch, useAppSelector } from "@/store/hooks"
+import {
+    selectMobileMenuOpen,
+    closeMobileMenu,
+    toggleMobileMenu,
+} from "@/features/ui/uiSlice"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -60,7 +66,8 @@ function drawerLinkClass(isActive: boolean) {
 export default function Navbar() {
     const pathname = usePathname()
     const menuId = useId()             // stable ID for aria-controls
-    const [menuOpen, setMenuOpen] = useState(false)
+    const dispatch = useAppDispatch()
+    const menuOpen = useAppSelector(selectMobileMenuOpen)
     const [scrolled, setScrolled] = useState(false)
 
     // Refs — only the elements we actually animate / need to measure
@@ -73,8 +80,8 @@ export default function Navbar() {
 
     // ── Close menu whenever route changes ───────────────────────────────────
     useEffect(() => {
-        setMenuOpen(false)
-    }, [pathname])
+        dispatch(closeMobileMenu())
+    }, [pathname, dispatch])
 
     // ── Passive scroll listener — toggles a CSS class only ─────────────────
     //    Much cheaper than a GSAP scrub; no layout thrashing; composited.
@@ -140,10 +147,10 @@ export default function Navbar() {
 
     // ── Keyboard: close menu on Escape ──────────────────────────────────────
     const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-        if (e.key === "Escape") setMenuOpen(false)
-    }, [])
+        if (e.key === "Escape") dispatch(closeMobileMenu())
+    }, [dispatch])
 
-    const toggleMenu = useCallback(() => setMenuOpen(prev => !prev), [])
+    const toggleMenu = useCallback(() => dispatch(toggleMobileMenu()), [dispatch])
 
     // ── Derived scroll class for the pill ───────────────────────────────────
     //    We only transition shadow + border — both are cheap GPU composited props.

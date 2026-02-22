@@ -48,6 +48,14 @@ import { useRef, useEffect, useState, useCallback, useId } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { ArrowUpRight, Mail, Phone, MapPin, Send, Loader2 } from "lucide-react"
+import { useAppDispatch, useAppSelector } from "@/store/hooks"
+import {
+    submitContact,
+    resetContactState,
+    selectContactStatus,
+    selectContactApiError,
+} from "@/features/contact/contactSlice"
+import type { ContactPayload } from "@/features/contact/contactSlice"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -97,9 +105,10 @@ const SOCIAL_LINKS = [
     { name: "Website", href: "https://www.7zero.media" },
 ] as const
 
-/* ─── Types ──────────────────────────────────────────────────────────────── */
+/* ─── Types (local — field values + per-field errors) ───────────────────── */
 
-type FormStatus = "idle" | "submitting" | "success" | "error"
+// status and apiError are now owned by Redux (contactSlice)
+type FormStatus = "idle" | "loading" | "success" | "error"
 
 interface FormData {
     name: string
@@ -146,10 +155,17 @@ export default function Contact() {
     const submitBtnRef = useRef<HTMLButtonElement>(null)  // replaces ".submit-btn" selector
     const successHeadRef = useRef<HTMLHeadingElement>(null) // focus target after success
 
-    // ── Form state ──────────────────────────────────────────────────────────
+    // ── Redux state ──────────────────────────────────────────────────────────
+    const dispatch = useAppDispatch()
+    const reduxStatus = useAppSelector(selectContactStatus)
+    const reduxApiError = useAppSelector(selectContactApiError)
+
+    // Map Redux status to local FormStatus shape the JSX expects
+    const status: FormStatus = reduxStatus === "loading" ? "loading" : reduxStatus
+
+    // ── Form field state (local — not global) ────────────────────────────────
     const [formData, setFormData] = useState<FormData>(EMPTY_FORM)
     const [errors, setErrors] = useState<FormErrors>({})
-    const [status, setStatus] = useState<FormStatus>("idle")
 
     // Update a single field
     const setField = useCallback(
@@ -180,7 +196,7 @@ export default function Contact() {
         e.preventDefault()
 
         // Prevent double-submission
-        if (status === "submitting") return
+        if (reduxStatus === "loading") return
 
         // Client-side validation
         const validationErrors = validate(formData)
@@ -193,7 +209,6 @@ export default function Contact() {
             return
         }
 
-        setStatus("submitting")
         setErrors({})
 
         // Micro-animation on submit button (ref-based, not class-based)
@@ -207,46 +222,24 @@ export default function Contact() {
             })
         }
 
-        try {
-            const res = await fetch("/api/contact", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    name: formData.name.trim(),
-                    email: formData.email.trim(),
-                    company: formData.company.trim(),
-                    service: formData.service,
-                    message: formData.message.trim(),
-                    // Honeypot — legitimate users won't have a value here
-                    website: (e.target as HTMLFormElement).website?.value ?? "",
-                }),
-            })
-
-            if (!res.ok) {
-                const data = await res.json().catch(() => ({}))
-                // Surface server-side field errors if available
-                if (data.errors) {
-                    setErrors(data.errors)
-                    setStatus("idle")
-                } else {
-                    throw new Error("Server error")
-                }
-                return
-            }
-
-            setStatus("success")
-        } catch {
-            setStatus("error")
-            setErrors({ api: "Something went wrong. Please try again or email us directly." })
+        const payload: ContactPayload = {
+            name: formData.name.trim(),
+            email: formData.email.trim(),
+            company: formData.company.trim(),
+            service: formData.service,
+            message: formData.message.trim(),
+            website: (e.target as HTMLFormElement).website?.value ?? "",
         }
-    }, [status, formData, fieldId])
+
+        dispatch(submitContact(payload))
+    }, [reduxStatus, formData, fieldId, dispatch])
 
     // ── Focus success heading for screen readers ─────────────────────────────
     useEffect(() => {
-        if (status === "success" && successHeadRef.current) {
+        if (reduxStatus === "success" && successHeadRef.current) {
             successHeadRef.current.focus()
         }
-    }, [status])
+    }, [reduxStatus])
 
     // ── GSAP animations ──────────────────────────────────────────────────────
     useEffect(() => {
@@ -561,7 +554,7 @@ export default function Contact() {
                                 <button
                                     type="button"
                                     onClick={() => {
-                                        setStatus("idle")
+                                        dispatch(resetContactState())
                                         setFormData(EMPTY_FORM)
                                         setErrors({})
                                     }}
@@ -608,13 +601,13 @@ export default function Contact() {
                                 </div>
 
                                 {/* API-level error banner */}
-                                {status === "error" && errors.api && (
+                                {status === "error" && reduxApiError && (
                                     <div
                                         role="alert"
                                         aria-live="assertive"
                                         className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600"
                                     >
-                                        {errors.api}
+                                        {reduxApiError}
                                     </div>
                                 )}
 
@@ -716,8 +709,8 @@ export default function Contact() {
                                                 aria-pressed={formData.service === s}
                                                 onClick={() => setField("service", formData.service === s ? "" : s)}
                                                 className={`text-xs px-3.5 py-2 rounded-full border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316] ${formData.service === s
-                                                        ? "border-[#F97316] bg-[#F97316]/15 text-[#F97316]"
-                                                        : "border-[#111111]/12 text-[#111111]/45 hover:border-[#111111]/30 hover:text-[#111111]/70"
+                                                    ? "border-[#F97316] bg-[#F97316]/15 text-[#F97316]"
+                                                    : "border-[#111111]/12 text-[#111111]/45 hover:border-[#111111]/30 hover:text-[#111111]/70"
                                                     }`}
                                             >
                                                 {s}
@@ -758,9 +751,9 @@ export default function Contact() {
                                 <button
                                     ref={submitBtnRef}
                                     type="submit"
-                                    disabled={status === "submitting"}
-                                    aria-disabled={status === "submitting"}
-                                    aria-label={status === "submitting" ? "Sending your message…" : "Send My Brief"}
+                                    disabled={status === "loading"}
+                                    aria-disabled={status === "loading"}
+                                    aria-label={status === "loading" ? "Sending your message…" : "Send My Brief"}
                                     className="group w-full relative overflow-hidden rounded-xl py-4 px-6 font-semibold text-sm tracking-wide transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316] focus-visible:ring-offset-2"
                                     style={{
                                         background: "linear-gradient(135deg, #F97316 0%, #ea6c0a 100%)",
@@ -777,7 +770,7 @@ export default function Contact() {
                                         }}
                                     />
                                     <span className="relative flex items-center justify-center gap-2">
-                                        {status === "submitting" ? (
+                                        {status === "loading" ? (
                                             <>
                                                 <Loader2 size={15} aria-hidden="true" className="animate-spin" />
                                                 Sending…

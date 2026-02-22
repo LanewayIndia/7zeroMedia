@@ -71,6 +71,13 @@ import { useState, useRef, useEffect, useCallback, useId } from "react"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { ArrowLeft, UploadCloud, Loader2 } from "lucide-react"
+import { useAppDispatch, useAppSelector } from "@/store/hooks"
+import {
+    submitCareers,
+    resetCareersState,
+    selectCareersStatus,
+    selectCareersApiError,
+} from "@/features/careers/careersSlice"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -87,7 +94,8 @@ interface Job {
     expectations: string[]
 }
 
-type FormStatus = "idle" | "submitting" | "success" | "error"
+// status and apiError are now owned by Redux (careersSlice)
+type FormStatus = "idle" | "loading" | "success" | "error"
 
 interface FormData {
     name: string
@@ -253,11 +261,16 @@ export default function Careers() {
     const uid = useId()
     const fid = (f: string) => `${uid}-${f}`
 
-    // ── State ────────────────────────────────────────────────────────────────
+    // ── Redux state ──────────────────────────────────────────────────────────
+    const dispatch = useAppDispatch()
+    const reduxStatus = useAppSelector(selectCareersStatus)
+    const reduxApiError = useAppSelector(selectCareersApiError)
+    const status: FormStatus = reduxStatus === "loading" ? "loading" : reduxStatus
+
+    // ── Local state (field values, file, selectedJob — not global) ────────
     const [selectedJob, setSelectedJob] = useState<Job | null>(null)
     const [formData, setFormData] = useState<FormData>(EMPTY_FORM)
     const [errors, setErrors] = useState<FormErrors>({})
-    const [status, setStatus] = useState<FormStatus>("idle")
     const [selectedFile, setSelectedFile] = useState<File | null>(null)
     const [fileError, setFileError] = useState<string>("")
 
@@ -297,20 +310,20 @@ export default function Careers() {
 
     // ── Focus success heading for screen readers ─────────────────────────────
     useEffect(() => {
-        if (status === "success" && successHeadRef.current) {
+        if (reduxStatus === "success" && successHeadRef.current) {
             successHeadRef.current.focus()
         }
-    }, [status])
+    }, [reduxStatus])
 
     // ── Reset all form state when a job is selected / deselected ────────────
     const resetForm = useCallback(() => {
         setFormData(EMPTY_FORM)
         setErrors({})
-        setStatus("idle")
+        dispatch(resetCareersState())
         setSelectedFile(null)
         setFileError("")
         if (fileInputRef.current) fileInputRef.current.value = ""
-    }, [])
+    }, [dispatch])
 
     const openJob = useCallback((job: Job) => {
         resetForm()
@@ -388,66 +401,40 @@ export default function Careers() {
     // ── Form submit ──────────────────────────────────────────────────────────
     const handleSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if (status === "submitting") return
+        if (reduxStatus === "loading") return
 
         // Honeypot check
         const honeypot = (e.currentTarget.elements.namedItem("website") as HTMLInputElement | null)?.value
         if (honeypot) {
-            // Bot detected — silently succeed
-            setStatus("success")
+            // Bot detected — silently succeed (dispatch a fake success)
+            dispatch(submitCareers(new FormData()))
             return
         }
 
         const validationErrors = validate(formData, selectedFile)
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors)
-            // Move focus to first errored field
             const firstKey = Object.keys(validationErrors)[0]
             const el = document.getElementById(fid(firstKey))
             el?.focus()
             return
         }
 
-        setStatus("submitting")
         setErrors({})
 
-        try {
-            // Prepare multipart payload for backend integration
-            const payload = new FormData()
-            payload.append("name", formData.name.trim())
-            payload.append("email", formData.email.trim())
-            payload.append("portfolio", formData.portfolio.trim())
-            payload.append("linkedin", formData.linkedin.trim())
-            payload.append("github", formData.github.trim())
-            payload.append("experience", formData.experience)
-            payload.append("about", formData.about.trim())
-            payload.append("jobTitle", selectedJob?.title ?? "")
-            if (selectedFile) payload.append("cv", selectedFile, selectedFile.name)
+        const payload = new FormData()
+        payload.append("name", formData.name.trim())
+        payload.append("email", formData.email.trim())
+        payload.append("portfolio", formData.portfolio.trim())
+        payload.append("linkedin", formData.linkedin.trim())
+        payload.append("github", formData.github.trim())
+        payload.append("experience", formData.experience)
+        payload.append("about", formData.about.trim())
+        payload.append("jobTitle", selectedJob?.title ?? "")
+        if (selectedFile) payload.append("cv", selectedFile, selectedFile.name)
 
-            const res = await fetch("/api/careers", {
-                method: "POST",
-                body: payload,
-                // No Content-Type header — fetch sets multipart/form-data boundary automatically
-            })
-
-            if (res.status === 422) {
-                // Server returned per-field validation errors — surface them in the form
-                const data = await res.json().catch(() => ({}))
-                if (data.errors) {
-                    setErrors(data.errors)
-                    setStatus("idle")
-                    return
-                }
-            }
-
-            if (!res.ok) throw new Error("Server error")
-
-            setStatus("success")
-        } catch {
-            setStatus("error")
-            setErrors({ api: "Something went wrong. Please try again or email us directly." })
-        }
-    }, [status, formData, selectedFile, selectedJob, fid])
+        dispatch(submitCareers(payload))
+    }, [reduxStatus, formData, selectedFile, selectedJob, fid, dispatch])
 
     // ── JSX ──────────────────────────────────────────────────────────────────
 
@@ -598,9 +585,9 @@ export default function Careers() {
                                 </div>
 
                                 {/* API error banner */}
-                                {status === "error" && errors.api && (
+                                {status === "error" && reduxApiError && (
                                     <div role="alert" aria-live="assertive" className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
-                                        {errors.api}
+                                        {reduxApiError}
                                     </div>
                                 )}
 
@@ -834,12 +821,12 @@ export default function Careers() {
                                 {/* ── Submit ── */}
                                 <button
                                     type="submit"
-                                    disabled={status === "submitting"}
-                                    aria-disabled={status === "submitting"}
-                                    aria-label={status === "submitting" ? "Submitting your application…" : "Submit Application"}
+                                    disabled={status === "loading"}
+                                    aria-disabled={status === "loading"}
+                                    aria-label={status === "loading" ? "Submitting your application…" : "Submit Application"}
                                     className="mt-2 bg-[#F97316] text-white py-4 rounded-xl font-semibold hover:bg-[#ea6c0a] transition-all duration-200 hover:shadow-[0_10px_40px_rgba(249,115,22,0.3)] disabled:opacity-70 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316] focus-visible:ring-offset-2 flex items-center justify-center gap-2"
                                 >
-                                    {status === "submitting" ? (
+                                    {status === "loading" ? (
                                         <>
                                             <Loader2 size={16} aria-hidden="true" className="animate-spin" />
                                             Submitting…

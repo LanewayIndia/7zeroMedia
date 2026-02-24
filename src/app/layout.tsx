@@ -126,14 +126,7 @@ export const metadata: Metadata = {
     title: "7ZeroMedia — AI-Powered Growth for Modern Brands",
     description:
       "AI-driven brand strategy, content creation, social media, and cinematic production — one growth engine for ambitious brands.",
-    images: [
-      {
-        url: `${BASE_URL}/logo.png`,
-        width: 1200,
-        height: 630,
-        alt: "7ZeroMedia OG Image",
-      },
-    ],
+    images: [OG_IMAGE],
   },
 
   /* ── Twitter / X Card ───────────────────────────────────────────────────
@@ -144,14 +137,7 @@ export const metadata: Metadata = {
     title: "7ZeroMedia — AI-Powered Growth for Modern Brands",
     description:
       "AI-driven brand strategy, content creation, social media, and cinematic production — one growth engine for ambitious brands.",
-    images: [
-      {
-        url: `${BASE_URL}/logo.png`,
-        width: 1200,
-        height: 630,
-        alt: "7ZeroMedia OG Image",
-      },
-    ],
+    images: [OG_IMAGE],
     site: "@7zeromedia",          // Twitter/X handle — update if different
     creator: "@7zeromedia",
   },

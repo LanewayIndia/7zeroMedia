@@ -198,6 +198,11 @@
   body {
     @apply bg-bg text-text;
   }
+  /* Apply Caudex to every heading element site-wide.
+     font-family falls back to serif if the variable isn't loaded yet (FOUT guard). */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading), serif;
+  }
 }
 
 /* ── Smooth theme transitions ────────────────────────────────────

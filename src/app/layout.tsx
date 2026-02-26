@@ -3,7 +3,7 @@
 import type { Metadata, Viewport } from "next"
 import { Playfair_Display, Inter } from "next/font/google"
 import PageTransition from "@/components/PageTransition"
-import ReduxProvider from "@/app/providers"
+import Providers from "@/app/providers"
 import "./globals.css"
 
 /* ─── Fonts ───────────────────────────────────────────────────────────────── */
@@ -278,6 +278,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${playfair.variable} ${inter.variable} antialiased`}
     >
       <head>
@@ -292,12 +293,17 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
       </head>
-      <body className="font-sans bg-background text-foreground">
-        <ReduxProvider>
+      {/*
+        bg-bg / text-text: resolve from CSS vars (--bg / --text).
+        ThemeProvider (inside Providers) sets class="dark" on <html>;
+        suppressHydrationWarning silences the inevitable SSR/CSR class diff.
+      */}
+      <body className="font-sans bg-bg text-text">
+        <Providers>
           <PageTransition>
             {children}
           </PageTransition>
-        </ReduxProvider>
+        </Providers>
       </body>
     </html>
   )

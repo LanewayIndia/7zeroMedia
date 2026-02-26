@@ -408,14 +408,14 @@ export default function Services() {
     }, [])
 
     return (
-        <div ref={rootRef} className="w-full bg-white text-[#111111]">
+        <div ref={rootRef} className="w-full bg-bg text-text">
 
             {/* ══════════════════════════════════════════
                 PAGE LOAD HEADER
             ══════════════════════════════════════════ */}
             <section
                 aria-label="Services hero"
-                className="relative overflow-hidden px-6 md:px-16 lg:px-24 pt-28 md:pt-36 pb-12 md:pb-16 bg-white"
+                className="relative overflow-hidden px-6 md:px-16 lg:px-24 pt-28 md:pt-36 pb-12 md:pb-16 bg-bg"
             >
                 {/* Decorative backgrounds — aria-hidden, never focusable */}
                 <div aria-hidden="true" className="absolute inset-0 pointer-events-none select-none">
@@ -423,7 +423,7 @@ export default function Services() {
                         className="absolute inset-0 opacity-[0.025]"
                         style={{
                             backgroundImage:
-                                "linear-gradient(#111 1px, transparent 1px), linear-gradient(90deg, #111 1px, transparent 1px)",
+                                "linear-gradient(var(--text) 1px, transparent 1px), linear-gradient(90deg, var(--text) 1px, transparent 1px)",
                             backgroundSize: "60px 60px",
                         }}
                     />
@@ -433,7 +433,7 @@ export default function Services() {
                         style={{
                             width: "min(500px, 80vw)",
                             height: "min(500px, 80vw)",
-                            background: "radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 65%)",
+                            background: "radial-gradient(circle, var(--orange-muted) 0%, transparent 65%)",
                         }}
                     />
                 </div>
@@ -442,23 +442,23 @@ export default function Services() {
                     {/* Eyebrow */}
                     <span
                         ref={pageTagRef}
-                        className="flex items-center gap-2 text-xs font-bold tracking-[0.25em] uppercase text-[#F97316] mb-6"
+                        className="flex items-center gap-2 text-xs font-bold tracking-[0.25em] uppercase text-orange mb-6"
                     >
-                        <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-[#F97316]" />
+                        <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-orange" />
                         Our Services | What We Build
                     </span>
 
                     {/* H1 — only one per page */}
                     <h1
                         ref={pageHeadRef}
-                        className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[#111111] leading-[1.04] tracking-tight max-w-3xl mb-6"
+                        className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-text leading-[1.04] tracking-tight max-w-3xl mb-6"
                     >
                         Growth Systems
                         <br />
-                        <span aria-hidden="true" className="text-[#111111]/20">Built to</span>{" "}
+                        <span aria-hidden="true" className="text-text/20">Built to</span>{" "}
                         <span
                             className="text-gradient"
-                            style={{ color: "#F97316" }}    /* fallback for unsupported browsers */
+                            style={{ color: "var(--orange)" }}
                             aria-label="Compound."
                         >
                             Compound.
@@ -467,7 +467,7 @@ export default function Services() {
 
                     <p
                         ref={pageSubRef}
-                        className="text-base md:text-lg text-[#111111]/50 max-w-xl leading-relaxed"
+                        className="text-base md:text-lg text-text-soft max-w-xl leading-relaxed"
                     >
                         Six precision-engineered systems that work together as one unified growth engine.
                         Each layer compounds the next — strategy, content, distribution, performance.
@@ -477,7 +477,7 @@ export default function Services() {
                     <div
                         ref={pageDivRef}
                         aria-hidden="true"
-                        className="mt-12 h-px bg-linear-to-r from-[#F97316]/40 via-[#F97316]/10 to-transparent"
+                        className="mt-12 h-px bg-linear-to-r from-orange/40 via-orange/10 to-transparent"
                     />
                 </div>
             </section>
@@ -488,7 +488,7 @@ export default function Services() {
             <section
                 id="services-grid"
                 aria-label="Our growth systems"
-                className="px-6 md:px-4 lg:px-8 py-5"
+                className="px-6 md:px-4 lg:px-8 pb-12"
             >
                 <div className="max-w-7xl mx-auto">
 
@@ -514,22 +514,22 @@ export default function Services() {
                                 return (
                                     <article
                                         key={service.headline}
-                                        className="group relative bg-white border border-[#111111]/6 rounded-2xl p-10 flex flex-col gap-6 hover:shadow-[0_8px_40px_rgba(249,115,22,0.10)] hover:border-[#F97316]/30 hover:-translate-y-1 transition-all duration-300"
+                                        className="group relative bg-elevated border border-border rounded-2xl p-10 flex flex-col gap-6 hover:shadow-[0_8px_40px_var(--orange-muted)] hover:border-orange/30 hover:-translate-y-1 transition-all duration-300"
                                     >
                                         <div className="flex items-center justify-between">
-                                            <div className="w-14 h-14 rounded-xl bg-[#F97316]/8 flex items-center justify-center group-hover:bg-[#F97316]/15 transition-colors">
-                                                <Icon size={28} className="text-[#F97316]" aria-hidden="true" />
+                                            <div className="w-14 h-14 rounded-xl bg-orange-muted flex items-center justify-center group-hover:bg-orange/20 transition-colors">
+                                                <Icon size={28} className="text-orange" aria-hidden="true" />
                                             </div>
-                                            <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-[#F97316]/70 px-2.5 py-1 border border-[#F97316]/20 rounded-full">
+                                            <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-orange/70 px-2.5 py-1 border border-orange/20 rounded-full">
                                                 {service.tag}
                                             </span>
                                         </div>
-                                        <h3 className="text-2xl font-bold text-[#111111] leading-tight">{service.headline}</h3>
-                                        <p className="text-base text-[#111111]/50 leading-relaxed flex-1">{service.description}</p>
+                                        <h3 className="text-2xl font-bold text-text leading-tight">{service.headline}</h3>
+                                        <p className="text-base text-text-soft leading-relaxed flex-1">{service.description}</p>
                                         <ul className="space-y-2.5" aria-label={`${service.headline} capabilities`}>
                                             {service.bullets.map((b) => (
-                                                <li key={b} className="flex items-center gap-2.5 text-sm text-[#111111]/55">
-                                                    <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-[#F97316] shrink-0" />
+                                                <li key={b} className="flex items-center gap-2.5 text-sm text-text-soft">
+                                                    <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-orange shrink-0" />
                                                     {b}
                                                 </li>
                                             ))}
@@ -537,7 +537,7 @@ export default function Services() {
                                         <Link
                                             href={service.href}
                                             aria-label={`Learn more about ${service.headline}`}
-                                            className="inline-flex items-center gap-2 text-sm font-semibold text-[#111111]/40 group-hover:text-[#F97316] transition-colors duration-200 mt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316] focus-visible:ring-offset-2 rounded"
+                                            className="inline-flex items-center gap-2 text-sm font-semibold text-text-soft group-hover:text-orange transition-colors duration-200 mt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 rounded"
                                         >
                                             Learn more
                                             <ArrowUpRight size={13} aria-hidden="true" className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
@@ -557,22 +557,22 @@ export default function Services() {
                                 return (
                                     <article
                                         key={service.headline}
-                                        className="group relative bg-white border border-[#111111]/6 rounded-2xl p-10 flex flex-col gap-6 hover:shadow-[0_8px_40px_rgba(249,115,22,0.10)] hover:border-[#F97316]/30 hover:-translate-y-1 transition-all duration-300"
+                                        className="group relative bg-elevated border border-border rounded-2xl p-10 flex flex-col gap-6 hover:shadow-[0_8px_40px_var(--orange-muted)] hover:border-orange/30 hover:-translate-y-1 transition-all duration-300"
                                     >
                                         <div className="flex items-center justify-between">
-                                            <div className="w-14 h-14 rounded-xl bg-[#F97316]/8 flex items-center justify-center group-hover:bg-[#F97316]/15 transition-colors">
-                                                <Icon size={28} className="text-[#F97316]" aria-hidden="true" />
+                                            <div className="w-14 h-14 rounded-xl bg-orange-muted flex items-center justify-center group-hover:bg-orange/20 transition-colors">
+                                                <Icon size={28} className="text-orange" aria-hidden="true" />
                                             </div>
-                                            <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-[#F97316]/70 px-2.5 py-1 border border-[#F97316]/20 rounded-full">
+                                            <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-orange/70 px-2.5 py-1 border border-orange/20 rounded-full">
                                                 {service.tag}
                                             </span>
                                         </div>
-                                        <h3 className="text-2xl font-bold text-[#111111] leading-tight">{service.headline}</h3>
-                                        <p className="text-base text-[#111111]/50 leading-relaxed flex-1">{service.description}</p>
+                                        <h3 className="text-2xl font-bold text-text leading-tight">{service.headline}</h3>
+                                        <p className="text-base text-text-soft leading-relaxed flex-1">{service.description}</p>
                                         <ul className="space-y-2.5" aria-label={`${service.headline} capabilities`}>
                                             {service.bullets.map((b) => (
-                                                <li key={b} className="flex items-center gap-2.5 text-sm text-[#111111]/55">
-                                                    <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-[#F97316] shrink-0" />
+                                                <li key={b} className="flex items-center gap-2.5 text-sm text-text-soft">
+                                                    <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-orange shrink-0" />
                                                     {b}
                                                 </li>
                                             ))}
@@ -580,7 +580,7 @@ export default function Services() {
                                         <Link
                                             href={service.href}
                                             aria-label={`Learn more about ${service.headline}`}
-                                            className="inline-flex items-center gap-2 text-sm font-semibold text-[#111111]/40 group-hover:text-[#F97316] transition-colors duration-200 mt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316] focus-visible:ring-offset-2 rounded"
+                                            className="inline-flex items-center gap-2 text-sm font-semibold text-text-soft group-hover:text-orange transition-colors duration-200 mt-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 rounded"
                                         >
                                             Learn more
                                             <ArrowUpRight size={13} aria-hidden="true" className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200" />
@@ -599,7 +599,7 @@ export default function Services() {
             <section
                 ref={blueprintRef}
                 aria-label="AI Marketing Audit & Growth Blueprint"
-                className="relative bg-[#111111] overflow-hidden px-6 md:px-16 lg:px-24 py-24 md:py-32"
+                className="relative bg-ink overflow-hidden px-6 md:px-16 lg:px-24 py-24 md:py-32"
             >
                 {/* Decorative backgrounds */}
                 <div aria-hidden="true" className="absolute inset-0 pointer-events-none select-none">
@@ -616,7 +616,7 @@ export default function Services() {
                         style={{
                             width: "min(600px, 80vw)",
                             height: "min(600px, 80vw)",
-                            background: "radial-gradient(circle, rgba(249,115,22,0.08) 0%, transparent 60%)",
+                            background: "radial-gradient(circle, var(--orange-muted) 0%, transparent 60%)",
                         }}
                     />
                 </div>
@@ -626,7 +626,7 @@ export default function Services() {
 
                         {/* Left copy */}
                         <div>
-                            <span className="text-xs font-bold tracking-[0.25em] uppercase text-[#F97316] mb-6 block">
+                            <span className="text-xs font-bold tracking-[0.25em] uppercase text-orange mb-6 block">
                                 AI Service — Intelligence Layer
                             </span>
                             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.06] mb-7">
@@ -645,7 +645,7 @@ export default function Services() {
                             <Link
                                 href="/contact"
                                 aria-label="Get early access to AI Marketing Audit"
-                                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-[#F97316] text-white font-semibold text-sm hover:bg-[#ea6c0a] transition-all duration-200 hover:shadow-[0_8px_40px_rgba(249,115,22,0.4)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316] focus-visible:ring-offset-2 focus-visible:ring-offset-[#111111]"
+                                className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl bg-orange text-white font-semibold text-sm hover:bg-orange-hover transition-all duration-200 hover:shadow-[0_8px_40px_var(--orange-muted)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 focus-visible:ring-offset-ink"
                             >
                                 Coming Soon
                                 <ArrowRight size={16} aria-hidden="true" />
@@ -657,7 +657,7 @@ export default function Services() {
                             {AUDIT_STEPS.map((item, i) => (
                                 <div
                                     key={item.step}
-                                    className="flex items-center gap-5 bg-white/3 border border-white/8 rounded-xl px-5 py-4 hover:bg-white/6 hover:border-[#F97316]/25 transition-all duration-300"
+                                    className="flex items-center gap-5 bg-white/3 border border-white/8 rounded-xl px-5 py-4 hover:bg-white/6 hover:border-orange/25 transition-all duration-300"
                                 >
                                     <div
                                         className="shrink-0 w-9 h-9 rounded-lg flex items-center justify-center text-xs font-bold"
@@ -696,19 +696,19 @@ export default function Services() {
             <section
                 ref={processWrapperRef}
                 aria-label="Our 6-phase growth process"
-                className="bg-white px-6 md:px-16 lg:px-24 py-16 md:py-24 lg:py-32"
+                className="bg-bg px-6 md:px-16 lg:px-24 py-16 md:py-24 lg:py-32"
             >
-                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20">
+                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-start">
 
                     {/* LEFT — sticky label panel (CSS sticky, not GSAP pin) */}
                     <div className="h-fit lg:sticky lg:top-24">
                         <span className="text-xs font-semibold tracking-[0.25em] uppercase text-[#F97316] mb-4 block">
                             How We Operate
                         </span>
-                        <h2 className="text-3xl md:text-5xl font-bold text-[#111111] leading-tight">
+                        <h2 className="text-3xl md:text-5xl font-bold text-text leading-tight">
                             From Zero to Scale
                         </h2>
-                        <p className="text-[#111111]/45 text-base mt-6 max-w-md leading-relaxed">
+                        <p className="text-text-soft text-base mt-6 max-w-md leading-relaxed">
                             A precision-engineered 6-phase system. No timelines that slip. Just a repeatable engine for growth.
                         </p>
                     </div>
@@ -720,25 +720,25 @@ export default function Services() {
                             return (
                                 <article
                                     key={s.step}
-                                    className="relative bg-[#F8F8F8] border border-[#111111]/6 rounded-2xl p-8 hover:border-[#F97316]/25 hover:shadow-[0_6px_40px_rgba(249,115,22,0.08)] transition-all duration-300"
+                                    className="relative bg-surface border border-border rounded-2xl p-8 hover:border-orange/25 hover:shadow-[0_6px_40px_var(--orange-muted)] transition-all duration-300"
                                 >
                                     {/* Step watermark — decorative */}
                                     <span
                                         aria-hidden="true"
-                                        className="absolute top-6 right-8 text-[72px] font-black leading-none text-[#111111]/5 select-none pointer-events-none"
+                                        className="absolute top-6 right-8 text-[72px] font-black leading-none text-text/5 select-none pointer-events-none"
                                     >
                                         {s.step}
                                     </span>
 
-                                    <div className="w-12 h-12 rounded-xl bg-[#F97316]/10 flex items-center justify-center mb-6">
-                                        <Icon size={22} aria-hidden="true" className="text-[#F97316]" />
+                                    <div className="w-12 h-12 rounded-xl bg-orange-muted flex items-center justify-center mb-6">
+                                        <Icon size={22} aria-hidden="true" className="text-orange" />
                                     </div>
 
-                                    <h3 className="text-xl font-bold text-[#111111] mb-3">
+                                    <h3 className="text-xl font-bold text-text mb-3">
                                         {s.label}
                                     </h3>
 
-                                    <p className="text-sm text-[#111111]/55 leading-relaxed max-w-md">
+                                    <p className="text-sm text-text-soft leading-relaxed max-w-md">
                                         {s.desc}
                                     </p>
                                 </article>
@@ -753,27 +753,27 @@ export default function Services() {
             ══════════════════════════════════════════ */}
             <section
                 aria-label="Call to action"
-                className="bg-[#F8F8F8] border-t border-[#111111]/6 px-6 md:px-16 lg:px-24 py-16 md:py-24 lg:py-32"
+                className="bg-surface border-t border-border px-6 md:px-16 lg:px-24 py-16 md:py-24 lg:py-32"
             >
                 <div ref={ctaRef} className="max-w-4xl mx-auto text-center">
-                    <span className="text-xs font-semibold tracking-[0.25em] uppercase text-[#F97316] mb-6 block">
+                    <span className="text-xs font-semibold tracking-[0.25em] uppercase text-orange mb-6 block">
                         Ready to Build?
                     </span>
 
-                    <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-[#111111] leading-[1.04] mb-7">
+                    <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-text leading-[1.04] mb-7">
                         Stop Running Campaigns.
                         <br />
-                        <span aria-hidden="true" className="text-[#111111]/20">Start Building</span>{" "}
+                        <span aria-hidden="true" className="text-text/20">Start Building</span>{" "}
                         <span
                             className="text-gradient"
-                            style={{ color: "#F97316" }}   /* fallback */
+                            style={{ color: "var(--orange)" }}
                             aria-label="Systems."
                         >
                             Systems.
                         </span>
                     </h2>
 
-                    <p className="text-[#111111]/45 text-lg md:text-xl max-w-xl mx-auto leading-relaxed mb-12">
+                    <p className="text-text-soft text-lg md:text-xl max-w-xl mx-auto leading-relaxed mb-12">
                         Your competitors are still buying ads. We&apos;ll build the infrastructure that makes you
                         impossible to ignore.
                     </p>
@@ -782,25 +782,25 @@ export default function Services() {
                         <Link
                             href="/contact"
                             aria-label="Get your growth blueprint"
-                            className="inline-flex items-center gap-2 px-9 py-4 rounded-xl bg-[#F97316] text-white font-semibold text-base hover:bg-[#ea6c0a] transition-all duration-200 hover:shadow-[0_12px_40px_rgba(249,115,22,0.35)] hover:-translate-y-0.5 w-full sm:w-auto justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316] focus-visible:ring-offset-2"
+                            className="inline-flex items-center gap-2 px-9 py-4 rounded-xl bg-orange text-white font-semibold text-base hover:bg-orange-hover transition-all duration-200 hover:shadow-[0_12px_40px_var(--orange-muted)] hover:-translate-y-0.5 w-full sm:w-auto justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
                         >
                             Get Your Growth Blueprint
                             <ArrowRight size={18} aria-hidden="true" />
                         </Link>
                         <Link
                             href="/about"
-                            className="inline-flex items-center gap-2 px-9 py-4 rounded-xl border border-[#111111]/15 text-[#111111] font-medium text-base hover:border-[#111111]/35 transition-all duration-200 w-full sm:w-auto justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#111111]/40 focus-visible:ring-offset-2"
+                            className="inline-flex items-center gap-2 px-9 py-4 rounded-xl border border-border text-text font-medium text-base hover:border-border/60 hover:bg-surface transition-all duration-200 w-full sm:w-auto justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border focus-visible:ring-offset-2"
                         >
                             About 7ZeroMedia
                         </Link>
                     </div>
 
                     {/* Stats strip */}
-                    <dl className="mt-14 pt-10 border-t border-[#111111]/8 flex flex-wrap items-center justify-center gap-8">
+                    <dl className="mt-14 pt-10 border-t border-border flex flex-wrap items-center justify-center gap-8">
                         {STATS.map((stat) => (
                             <div key={stat.label} className="text-center">
-                                <dt className="text-xs text-[#111111]/40 mt-0.5 tracking-wide order-2">{stat.label}</dt>
-                                <dd className="text-2xl font-black text-[#111111] order-1">{stat.value}</dd>
+                                <dt className="text-xs text-text-soft mt-0.5 tracking-wide order-2">{stat.label}</dt>
+                                <dd className="text-2xl font-black text-text order-1">{stat.value}</dd>
                             </div>
                         ))}
                     </dl>

@@ -134,7 +134,7 @@ const EMPTY_FORM: FormData = {
 /* ─── Input base class ───────────────────────────────────────────────────── */
 
 const inputBase =
-    "w-full bg-[#111111]/5 border border-[#111111]/10 rounded-xl px-4 py-3.5 text-sm text-[#111111] placeholder-[#111111]/30 outline-none transition-all duration-300 focus:border-[#F97316]/60 focus:bg-[#111111]/[0.08] focus:shadow-[0_0_20px_rgba(249,115,22,0.08)]"
+    "w-full bg-text/5 border border-border rounded-xl px-4 py-3.5 text-sm text-text placeholder-text-soft/60 outline-none transition-all duration-300 focus:border-orange/60 focus:bg-text/[0.08] focus:shadow-[0_0_20px_var(--orange-muted)]"
 
 /* ─── Component ──────────────────────────────────────────────────────────── */
 
@@ -363,7 +363,7 @@ export default function Contact() {
     return (
         <div
             ref={sectionRef}
-            className="relative min-h-screen bg-[#F8F8F8] overflow-hidden px-5 md:px-12 lg:px-20 py-24 md:py-32"
+            className="relative min-h-screen bg-surface overflow-hidden px-5 md:px-12 lg:px-20 py-24 md:py-32"
         >
             {/* Decorative backgrounds — aria-hidden, pointer-events-none */}
             <div aria-hidden="true" className="absolute inset-0 pointer-events-none select-none">
@@ -375,7 +375,7 @@ export default function Contact() {
                         width: "min(500px, 80vw)",
                         height: "min(500px, 80vw)",
                         background:
-                            "radial-gradient(circle, rgba(249,115,22,0.10) 0%, rgba(249,115,22,0.03) 50%, transparent 70%)",
+                            "radial-gradient(circle, var(--orange-muted) 0%, var(--orange-muted) 50%, transparent 70%)",
                         filter: "blur(40px)",
                         willChange: "transform",
                     }}
@@ -387,7 +387,7 @@ export default function Contact() {
                         width: "min(400px, 70vw)",
                         height: "min(400px, 70vw)",
                         background:
-                            "radial-gradient(circle, rgba(249,115,22,0.06) 0%, transparent 70%)",
+                            "radial-gradient(circle, var(--orange-muted) 0%, transparent 70%)",
                         filter: "blur(60px)",
                     }}
                 />
@@ -404,35 +404,35 @@ export default function Contact() {
 
                 {/* ── Section header ──────────────────────────────────── */}
                 <div className="mb-4">
-                    <span className="text-xs tracking-[0.25em] uppercase text-[#F97316]/80 font-medium">
+                    <span className="text-xs tracking-[0.25em] uppercase text-orange/80 font-medium">
                         Let&apos;s Work Together
                     </span>
                 </div>
 
                 <div ref={headingRef} className="mb-6 overflow-hidden">
-                    <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-[#111111] leading-[1.05] tracking-tight">
+                    <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-text leading-[1.05] tracking-tight">
                         Let&apos;s create{" "}
                         <span
                             className="relative inline-block"
                             style={{
-                                background: "linear-gradient(135deg, #F97316 0%, #fb923c 50%, #fed7aa 100%)",
+                                background: "linear-gradient(135deg, var(--orange) 0%, var(--orange-hover) 50%, #fed7aa 100%)",
                                 WebkitBackgroundClip: "text",
                                 WebkitTextFillColor: "transparent",
                                 backgroundClip: "text",
-                                color: "#F97316",   /* fallback */
+                                color: "var(--orange)",
                             }}
                             aria-label="something"
                         >
                             something
                         </span>
                         <br />
-                        <span aria-hidden="true" className="text-[#111111]/25">iconic.</span>
+                        <span aria-hidden="true" className="text-text/25">iconic.</span>
                     </h1>
                 </div>
 
                 <p
                     ref={taglineRef}
-                    className="text-[#111111]/50 text-base md:text-lg max-w-xl mb-16 leading-relaxed"
+                    className="text-text-soft text-base md:text-lg max-w-xl mb-16 leading-relaxed"
                 >
                     Whether you&apos;re a startup looking to make noise or an established brand ready to evolve — we&apos;re
                     built for brands that refuse to be ordinary.
@@ -447,10 +447,10 @@ export default function Contact() {
                         {/* Availability badge */}
                         <div
                             aria-hidden="true"
-                            className="inline-flex items-center gap-2 border border-[#F97316]/25 bg-[#F97316]/8 rounded-full px-4 py-1.5 mb-8"
+                            className="inline-flex items-center gap-2 border border-orange/25 bg-orange-muted rounded-full px-4 py-1.5 mb-8"
                         >
-                            <span className="w-1.5 h-1.5 rounded-full bg-[#F97316] animate-pulse" />
-                            <span className="text-xs text-[#F97316]/90 tracking-wider">Available for projects</span>
+                            <span className="w-1.5 h-1.5 rounded-full bg-orange animate-pulse" />
+                            <span className="text-xs text-orange/90 tracking-wider">Available for projects</span>
                         </div>
 
                         {/* Contact info cards */}
@@ -459,14 +459,14 @@ export default function Contact() {
                                 const Icon = detail.icon
                                 const cardInner = (
                                     <>
-                                        <div className="mt-0.5 shrink-0 w-9 h-9 rounded-xl bg-[#F97316]/10 flex items-center justify-center group-hover:bg-[#F97316]/20 transition-colors">
-                                            <Icon size={16} aria-hidden="true" className="text-[#F97316]" />
+                                        <div className="mt-0.5 shrink-0 w-9 h-9 rounded-xl bg-orange-muted flex items-center justify-center group-hover:bg-orange/20 transition-colors">
+                                            <Icon size={16} aria-hidden="true" className="text-orange" />
                                         </div>
                                         <div>
-                                            <p className="text-xs text-[#111111]/40 tracking-wider uppercase mb-1">
+                                            <p className="text-xs text-text-soft tracking-wider uppercase mb-1">
                                                 {detail.label}
                                             </p>
-                                            <p className="text-sm text-[#111111]/80 leading-relaxed whitespace-pre-line">
+                                            <p className="text-sm text-text/80 leading-relaxed whitespace-pre-line">
                                                 {detail.value}
                                             </p>
                                         </div>
@@ -474,21 +474,21 @@ export default function Contact() {
                                             <ArrowUpRight
                                                 size={14}
                                                 aria-hidden="true"
-                                                className="ml-auto mt-1 text-[#111111]/20 group-hover:text-[#F97316] transition-colors shrink-0"
+                                                className="ml-auto mt-1 text-text/20 group-hover:text-orange transition-colors shrink-0"
                                             />
                                         )}
                                     </>
                                 )
 
                                 const sharedClass =
-                                    "group flex items-start gap-4 border border-[#111111]/8 bg-white hover:bg-[#F8F8F8] hover:border-[#F97316]/25 rounded-2xl p-4 transition-all duration-300"
+                                    "group flex items-start gap-4 border border-border bg-elevated hover:bg-surface hover:border-orange/25 rounded-2xl p-4 transition-all duration-300"
 
                                 return detail.href ? (
                                     <a
                                         key={detail.label}
                                         href={detail.href}
                                         aria-label={`${detail.label}: ${detail.value}`}
-                                        className={`block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316] focus-visible:ring-offset-2 rounded-2xl`}
+                                        className={`block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 rounded-2xl`}
                                     >
                                         <div className={sharedClass}>{cardInner}</div>
                                     </a>
@@ -502,7 +502,7 @@ export default function Contact() {
 
                         {/* Social links */}
                         <div>
-                            <p className="text-xs text-[#111111]/35 tracking-widest uppercase mb-4">
+                            <p className="text-xs text-text/35 tracking-widest uppercase mb-4">
                                 Find us on
                             </p>
                             <div className="flex gap-3 flex-wrap" role="list" aria-label="Social media profiles">
@@ -514,7 +514,7 @@ export default function Contact() {
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         aria-label={`${s.name} — opens in a new tab`}
-                                        className="group flex items-center gap-1.5 text-xs text-[#111111]/50 border border-[#111111]/12 hover:border-[#F97316]/50 hover:text-[#F97316] px-4 py-2 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316]"
+                                        className="group flex items-center gap-1.5 text-xs text-text-soft border border-border hover:border-orange/50 hover:text-orange px-4 py-2 rounded-full transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange"
                                     >
                                         {s.name}
                                         <ArrowUpRight
@@ -536,23 +536,23 @@ export default function Contact() {
                             <div
                                 role="status"
                                 aria-live="polite"
-                                className="border border-[#F97316]/25 bg-[#F97316]/5 rounded-3xl p-10 text-center min-h-[500px] flex flex-col items-center justify-center"
+                                className="border border-orange/25 bg-orange-muted rounded-3xl p-10 text-center min-h-[500px] flex flex-col items-center justify-center"
                             >
-                                <div aria-hidden="true" className="w-16 h-16 rounded-full bg-[#F97316]/10 flex items-center justify-center mb-6 mx-auto">
+                                <div aria-hidden="true" className="w-16 h-16 rounded-full bg-orange-muted flex items-center justify-center mb-6 mx-auto">
                                     <CheckCircle2
                                         size={28}
                                         aria-hidden="true"
-                                        className="text-[#F97316]"
+                                        className="text-orange"
                                     />
                                 </div>
                                 <h3
                                     ref={successHeadRef}
                                     tabIndex={-1}
-                                    className="text-2xl font-bold text-[#111111] mb-3 focus:outline-none"
+                                    className="text-2xl font-bold text-text mb-3 focus:outline-none"
                                 >
                                     Message received.
                                 </h3>
-                                <p className="text-[#111111]/50 text-sm leading-relaxed max-w-xs">
+                                <p className="text-text-soft text-sm leading-relaxed max-w-xs">
                                     We&apos;ll review your brief and get back to you within 24 hours. Big things incoming.
                                 </p>
                                 <button
@@ -562,7 +562,7 @@ export default function Contact() {
                                         setFormData(EMPTY_FORM)
                                         setErrors({})
                                     }}
-                                    className="mt-8 text-xs text-[#F97316]/70 hover:text-[#F97316] underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316] rounded"
+                                    className="mt-8 text-xs text-orange/70 hover:text-orange underline underline-offset-4 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange rounded"
                                 >
                                     Send another message
                                 </button>
@@ -576,7 +576,7 @@ export default function Contact() {
                                 onSubmit={handleSubmit}
                                 noValidate        /* we handle validation ourselves */
                                 aria-label="Contact form"
-                                className="border border-[#111111]/8 bg-white backdrop-blur-sm rounded-3xl p-7 md:p-9 space-y-5"
+                                className="border border-border bg-elevated backdrop-blur-sm rounded-3xl p-7 md:p-9 space-y-5"
                             >
                                 {/* ── Honeypot — visually hidden from humans ──
                                     Bots auto-fill this; humans never see it.
@@ -620,7 +620,7 @@ export default function Contact() {
                                     <div className="space-y-1.5">
                                         <label
                                             htmlFor={fieldId("name")}
-                                            className="text-xs text-[#111111]/45 tracking-wider uppercase"
+                                            className="text-xs text-text-soft tracking-wider uppercase"
                                         >
                                             Your Name <span aria-hidden="true">*</span>
                                         </label>
@@ -647,7 +647,7 @@ export default function Contact() {
                                     <div className="space-y-1.5">
                                         <label
                                             htmlFor={fieldId("email")}
-                                            className="text-xs text-[#111111]/45 tracking-wider uppercase"
+                                            className="text-xs text-text-soft tracking-wider uppercase"
                                         >
                                             Email <span aria-hidden="true">*</span>
                                         </label>
@@ -697,7 +697,7 @@ export default function Contact() {
                                 <div className="space-y-2">
                                     <p
                                         id={fieldId("service-label")}
-                                        className="text-xs text-[#111111]/45 tracking-wider uppercase"
+                                        className="text-xs text-text-soft tracking-wider uppercase"
                                     >
                                         I&apos;m interested in...
                                     </p>
@@ -712,9 +712,9 @@ export default function Contact() {
                                                 type="button"
                                                 aria-pressed={formData.service === s}
                                                 onClick={() => setField("service", formData.service === s ? "" : s)}
-                                                className={`text-xs px-3.5 py-2 rounded-full border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316] ${formData.service === s
-                                                    ? "border-[#F97316] bg-[#F97316]/15 text-[#F97316]"
-                                                    : "border-[#111111]/12 text-[#111111]/45 hover:border-[#111111]/30 hover:text-[#111111]/70"
+                                                className={`text-xs px-3.5 py-2 rounded-full border transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange ${formData.service === s
+                                                    ? "border-orange bg-orange/15 text-orange"
+                                                    : "border-border text-text-soft hover:border-text/30 hover:text-text"
                                                     }`}
                                             >
                                                 {s}
@@ -760,7 +760,7 @@ export default function Contact() {
                                     aria-label={status === "loading" ? "Sending your message…" : "Send My Brief"}
                                     className="group w-full relative overflow-hidden rounded-xl py-4 px-6 font-semibold text-sm tracking-wide transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316] focus-visible:ring-offset-2"
                                     style={{
-                                        background: "linear-gradient(135deg, #F97316 0%, #ea6c0a 100%)",
+                                        background: "linear-gradient(135deg, var(--orange) 0%, var(--orange-hover) 100%)",
                                         color: "#ffffff",
                                     }}
                                 >
@@ -788,7 +788,7 @@ export default function Contact() {
                                     </span>
                                 </button>
 
-                                <p className="text-center text-xs text-[#111111]/25">
+                                <p className="text-center text-xs text-text/25">
                                     No spam. Ever. We respond within 24 hours.
                                 </p>
                             </form>

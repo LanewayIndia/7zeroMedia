@@ -1,16 +1,17 @@
 // src/app/layout.tsx
 
 import type { Metadata, Viewport } from "next"
-import { Playfair_Display, Inter } from "next/font/google"
+import { Caudex, Inter } from "next/font/google"
 import PageTransition from "@/components/PageTransition"
 import Providers from "@/app/providers"
 import "./globals.css"
 
 /* ─── Fonts ───────────────────────────────────────────────────────────────── */
 
-const playfair = Playfair_Display({
+const caudex = Caudex({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
   variable: "--font-heading",
   display: "swap",       // prevent FOIT — text visible in fallback font immediately
   preload: true,
@@ -279,7 +280,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${playfair.variable} ${inter.variable} antialiased`}
+      className={`${caudex.variable} ${inter.variable} antialiased`}
     >
       <head>
         {/* ── JSON-LD: Organization ──────────────────────────────────── */}

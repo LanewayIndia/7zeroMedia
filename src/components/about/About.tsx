@@ -264,13 +264,13 @@ export default function About() {
       ref={sectionRef}
       id="about"
       aria-label="About 7ZeroMedia"
-      className="bg-[#F8F8F8] text-[#111111] py-16 md:py-24 lg:py-28 px-6 md:px-8"
+      className="bg-surface text-text py-16 md:py-24 lg:py-28 px-6 md:px-8"
     >
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
 
         {/* ── LEFT — Copy ──────────────────────────────────────── */}
         <div>
-          <p className="text-sm uppercase tracking-widest text-[#F97316] font-semibold mb-4">
+          <p className="text-sm uppercase tracking-widest text-orange font-semibold mb-4">
             About 7ZeroMedia
           </p>
 
@@ -291,14 +291,14 @@ export default function About() {
             </h2>
           </div>
 
-          <p className="text-lg text-gray-600 leading-relaxed mb-6">
+          <p className="text-lg text-text-soft leading-relaxed mb-6">
             AI-powered storytelling engineered for performance.
             We turn culture and content into scalable brand authority.
           </p>
 
           <button
             type="button"
-            className="mt-8 px-6 py-3 bg-[#F97316] text-white rounded-lg font-semibold hover:opacity-90 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316] focus-visible:ring-offset-2"
+            className="mt-8 px-6 py-3 bg-orange text-white rounded-lg font-semibold hover:opacity-90 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
           >
             Learn More
           </button>
@@ -309,7 +309,7 @@ export default function About() {
           {/* Glow — decorative, not read by screen readers */}
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-[#F97316]/10 blur-3xl rounded-3xl pointer-events-none"
+            className="absolute inset-0 bg-orange-muted blur-3xl rounded-3xl pointer-events-none"
           />
 
           {/*
@@ -325,8 +325,9 @@ export default function About() {
           >
             <video
               src="/about-video.mp4"
-              controls
               loop
+              muted
+              autoPlay
               playsInline
               // preload=metadata: fetches only video metadata (duration,
               // dimensions, poster frame) on initial load — not the full file.

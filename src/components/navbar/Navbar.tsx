@@ -4,17 +4,16 @@
  * Navbar — Production-Grade Component
  *
  * Key architecture decisions:
- *  - `usePathname` drives active-link + closes menu on navigation.
- *  - Scroll depth detection uses a passive scroll listener + CSS class toggle
- *    instead of a GSAP scrub on "body", which was causing layout thrashing
- *    and animating expensive box-shadow during scroll.
- *  - GSAP context is used for all entrance animations with proper cleanup.
- *  - Link stagger only fires on ≥768px via matchMedia — avoids running on
- *    mobile where the links aren't visible.
- *  - No document.querySelector — all DOM access goes through refs.
- *  - Mobile menu closes automatically on pathname change (route navigation).
+ *  - All colors use CSS-variable-driven Tailwind tokens (bg-elevated, text-text, etc.)
+ *    — zero hardcoded hex values, fully responds to light/dark theme.
+ *  - ThemeToggle is placed in the right group (desktop: between CTA and toggle;
+ *    mobile: visible alongside hamburger).
+ *  - usePathname drives active-link + closes menu on navigation.
+ *  - Scroll depth detection uses a passive scroll listener + CSS class toggle.
+ *  - GSAP context scoped to wrapperRef — no global side-effects.
+ *  - Mobile menu closes automatically on pathname change.
  *  - No <Link> nested inside <Button> — CTA is a styled <Link> directly.
- *  - Mobile menu uses a <dialog>-like pattern with role="dialog" + aria-modal.
+ *  - Mobile menu uses role="dialog" + aria-modal pattern.
  *  - All interactive elements have min 44×44px touch targets.
  */
 
@@ -31,10 +30,11 @@ import {
     closeMobileMenu,
     toggleMobileMenu,
 } from "@/features/ui/uiSlice"
+import { ThemeToggle } from "@/components/ui/ThemeToggle"
 
 gsap.registerPlugin(ScrollTrigger)
 
-// ─── Static data (module-level — never re-created on render) ────────────────
+// ─── Static data ────────────────────────────────────────────────
 const NAV_LINKS = [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
@@ -43,34 +43,36 @@ const NAV_LINKS = [
     { label: "Contact", href: "/contact" },
 ] as const
 
-// ─── Shared class builders ───────────────────────────────────────────────────
+// ─── Link class builders — token-based ──────────────────────────
 function pillLinkClass(isActive: boolean) {
     return [
-        "text-base font-medium px-4 py-1.5 rounded-full transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316] focus-visible:ring-offset-1",
+        "text-base font-medium px-4 py-1.5 rounded-full transition-all duration-200",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-1",
         isActive
-            ? "text-[#F97316] bg-[#F97316]/10 shadow-[0_0_12px_rgba(249,115,22,0.35)]"
-            : "text-[#111111]/70 hover:text-[#F97316] hover:bg-[#F97316]/6",
+            ? "text-orange bg-orange-muted shadow-[0_0_12px_var(--orange-muted)]"
+            : "text-text/70 hover:text-orange hover:bg-orange-muted",
     ].join(" ")
 }
 
 function drawerLinkClass(isActive: boolean) {
     return [
-        "px-4 py-3 rounded-xl text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316]",
+        "px-4 py-3 rounded-xl text-sm font-medium transition-all duration-150",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange",
         isActive
-            ? "text-[#F97316] bg-[#F97316]/10"
-            : "text-[#111111] hover:text-[#F97316] hover:bg-[#F97316]/6",
+            ? "text-orange bg-orange-muted"
+            : "text-text hover:text-orange hover:bg-orange-muted",
     ].join(" ")
 }
 
-// ─── Component ───────────────────────────────────────────────────────────────
+// ─── Component ───────────────────────────────────────────────────
 export default function Navbar() {
     const pathname = usePathname()
-    const menuId = useId()             // stable ID for aria-controls
+    const menuId = useId()
     const dispatch = useAppDispatch()
     const menuOpen = useAppSelector(selectMobileMenuOpen)
     const [scrolled, setScrolled] = useState(false)
 
-    // Refs — only the elements we actually animate / need to measure
+    // Refs
     const wrapperRef = useRef<HTMLDivElement>(null)
     const navRef = useRef<HTMLElement>(null)
     const logoRef = useRef<HTMLDivElement>(null)
@@ -78,85 +80,61 @@ export default function Navbar() {
     const ctaRef = useRef<HTMLDivElement>(null)
     const hamburgerRef = useRef<HTMLButtonElement>(null)
 
-    // ── Close menu whenever route changes ───────────────────────────────────
+    // ── Close menu on route change ───────────────────────────────
     useEffect(() => {
         dispatch(closeMobileMenu())
     }, [pathname, dispatch])
 
-    // ── Passive scroll listener — toggles a CSS class only ─────────────────
-    //    Much cheaper than a GSAP scrub; no layout thrashing; composited.
+    // ── Scroll depth — toggles CSS class only ────────────────────
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 60)
-
         window.addEventListener("scroll", handleScroll, { passive: true })
         return () => window.removeEventListener("scroll", handleScroll)
     }, [])
 
-    // ── GSAP entrance animations ─────────────────────────────────────────────
+    // ── GSAP entrance animations ─────────────────────────────────
     useEffect(() => {
-        // Guard: skip if required refs aren't mounted
         if (!navRef.current || !logoRef.current || !ctaRef.current) return
 
         const ctx = gsap.context(() => {
-            // Pill nav drops in from above
             gsap.from(navRef.current, {
-                y: -60,
-                opacity: 0,
-                duration: 0.9,
-                ease: "power3.out",
+                y: -60, opacity: 0, duration: 0.9, ease: "power3.out",
                 clearProps: "opacity,transform",
             })
-
-            // Logo slides from left
             gsap.from(logoRef.current, {
-                x: -60,
-                opacity: 0,
-                duration: 1,
-                delay: 0.2,
-                ease: "power3.out",
+                x: -60, opacity: 0, duration: 1, delay: 0.2, ease: "power3.out",
                 clearProps: "opacity,transform",
             })
-
-            // CTA / hamburger slides from right
             gsap.from(ctaRef.current, {
-                x: 60,
-                opacity: 0,
-                duration: 1,
-                delay: 0.35,
-                ease: "power3.out",
+                x: 60, opacity: 0, duration: 1, delay: 0.35, ease: "power3.out",
                 clearProps: "opacity,transform",
             })
 
-            // Nav link stagger — only on desktop (avoids firing on hidden elements)
             const mq = window.matchMedia("(min-width: 768px)")
             if (mq.matches && linkItemsRef.current) {
                 gsap.from(linkItemsRef.current.children, {
-                    y: -24,
-                    opacity: 0,
-                    duration: 0.7,
+                    y: -24, opacity: 0, duration: 0.7,
                     stagger: { each: 0.08, ease: "power1.in" },
-                    ease: "back.out(1.4)",
-                    delay: 0.35,
+                    ease: "back.out(1.4)", delay: 0.35,
                     clearProps: "opacity,transform",
                 })
             }
-        }, wrapperRef) // scope to our wrapper — no global side-effects
+        }, wrapperRef)
 
         return () => ctx.revert()
-    }, []) // intentionally empty — entrance animation runs once on mount
+    }, [])
 
-    // ── Keyboard: close menu on Escape ──────────────────────────────────────
+    // ── Keyboard: Escape closes menu ─────────────────────────────
     const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
         if (e.key === "Escape") dispatch(closeMobileMenu())
     }, [dispatch])
 
     const toggleMenu = useCallback(() => dispatch(toggleMobileMenu()), [dispatch])
 
-    // ── Derived scroll class for the pill ───────────────────────────────────
-    //    We only transition shadow + border — both are cheap GPU composited props.
+    // ── Pill scroll state — token-based shadows ──────────────────
     const pillScrollClass = scrolled
-        ? "border-[rgba(249,115,22,0.18)] shadow-[0_8px_40px_rgba(17,17,17,0.13)]"
-        : "border-white/40 shadow-[0_4px_32px_rgba(17,17,17,0.08)]"
+        ? "border-orange/20 shadow-[0_8px_40px_rgba(0,0,0,0.18)]"
+        : "border-border shadow-[0_4px_32px_rgba(0,0,0,0.08)]"
 
     return (
         <div
@@ -165,7 +143,7 @@ export default function Navbar() {
             onKeyDown={handleKeyDown}
         >
 
-            {/* ── LEFT · Logo ──────────────────────────────────────── */}
+            {/* ── LEFT · Logo ──────────────────────────────────── */}
             <div ref={logoRef} className="flex items-center shrink-0">
                 <Link href="/" aria-label="7ZeroMedia — Go to homepage">
                     <Image
@@ -174,18 +152,18 @@ export default function Navbar() {
                         width={64}
                         height={64}
                         priority
-                        className="rounded-full shadow-[0_2px_16px_rgba(17,17,17,0.12)]"
+                        className="rounded-full shadow-sm"
                     />
                 </Link>
             </div>
 
-            {/* ── CENTER · Pill nav ─────────────────────────────────── */}
+            {/* ── CENTER · Pill nav ─────────────────────────────── */}
             <nav
                 ref={navRef}
                 aria-label="Primary navigation"
                 className={[
                     "hidden md:flex items-center px-9 py-3.5",
-                    "rounded-full border bg-white/60 backdrop-blur-xl ring-1 ring-black/5",
+                    "rounded-full border bg-elevated/70 backdrop-blur-xl ring-1 ring-text/5",
                     "transition-[border-color,box-shadow] duration-300",
                     pillScrollClass,
                 ].join(" ")}
@@ -205,13 +183,24 @@ export default function Navbar() {
                 </div>
             </nav>
 
-            {/* ── RIGHT · CTA (desktop) + Hamburger (mobile) ───────── */}
-            <div ref={ctaRef} className="flex items-center shrink-0">
+            {/* ── RIGHT · Theme toggle + CTA + Hamburger ───────── */}
+            <div ref={ctaRef} className="flex items-center gap-16 shrink-0">
 
-                {/* Desktop CTA — plain <Link>, no Button wrapper */}
+                {/* Theme toggle — visible on all breakpoints */}
+                <ThemeToggle />
+
+                {/* Desktop CTA */}
                 <Link
                     href="/contact"
-                    className="hidden md:inline-flex items-center justify-center bg-[#F97316] hover:bg-[#ea6c0a] rounded-full px-7 py-3 text-base font-semibold text-white transition-all duration-300 hover:shadow-[0_0_24px_rgba(249,115,22,0.55)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316] focus-visible:ring-offset-2"
+                    className={[
+                        "hidden md:inline-flex items-center justify-center",
+                        "bg-orange hover:bg-orange-hover rounded-full px-7 py-3",
+                        "text-base font-semibold text-white transition-all duration-300",
+                        "hover:shadow-[0_0_24px_var(--orange-glow)]",
+                        "focus-visible:outline-none focus-visible:ring-2",
+                        "focus-visible:ring-orange focus-visible:ring-offset-2",
+                        "focus-visible:ring-offset-bg",
+                    ].join(" ")}
                 >
                     Start Your Growth Here
                 </Link>
@@ -220,7 +209,13 @@ export default function Navbar() {
                 <button
                     ref={hamburgerRef}
                     type="button"
-                    className="md:hidden flex items-center justify-center w-11 h-11 text-[#111111] bg-white/70 backdrop-blur-xl border border-white/40 rounded-full shadow-[0_2px_12px_rgba(17,17,17,0.10)] transition-colors duration-200 hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316]"
+                    className={[
+                        "md:hidden flex items-center justify-center w-11 h-11",
+                        "text-text bg-elevated/80 backdrop-blur-xl border border-border",
+                        "rounded-full shadow-sm transition-colors duration-200",
+                        "hover:bg-surface focus-visible:outline-none",
+                        "focus-visible:ring-2 focus-visible:ring-orange",
+                    ].join(" ")}
                     onClick={toggleMenu}
                     aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
                     aria-expanded={menuOpen}
@@ -230,12 +225,7 @@ export default function Navbar() {
                 </button>
             </div>
 
-            {/* ── Mobile drawer ─────────────────────────────────────── */}
-            {/*
-                Positioned via `top-[calc(100%+8px)]` relative to the wrapper
-                instead of a hard-coded pixel offset — stays anchored correctly
-                at any font-size / zoom level.
-            */}
+            {/* ── Mobile drawer ─────────────────────────────────── */}
             <div
                 id={menuId}
                 role="dialog"
@@ -244,8 +234,9 @@ export default function Navbar() {
                 className={[
                     "fixed inset-x-4 top-20",
                     "md:hidden flex flex-col gap-1 px-4 py-4",
-                    "rounded-2xl border border-white/40 bg-white/85 backdrop-blur-xl",
-                    "shadow-[0_8px_32px_rgba(17,17,17,0.10)]",
+                    "rounded-2xl border border-border",
+                    "bg-elevated/90 backdrop-blur-xl",
+                    "shadow-[0_8px_32px_rgba(0,0,0,0.18)]",
                     "transition-all duration-200",
                     menuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none",
                 ].join(" ")}
@@ -263,10 +254,16 @@ export default function Navbar() {
                     ))}
                 </nav>
 
-                <div className="pt-2 mt-1 border-t border-[#111111]/8">
+                <div className="pt-2 mt-1 border-t border-border">
                     <Link
                         href="/contact"
-                        className="flex w-full items-center justify-center bg-[#F97316] hover:bg-[#ea6c0a] rounded-full py-3 text-sm font-medium text-white transition-all duration-200 hover:shadow-[0_0_20px_rgba(249,115,22,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316]"
+                        className={[
+                            "flex w-full items-center justify-center",
+                            "bg-orange hover:bg-orange-hover rounded-full py-3",
+                            "text-sm font-medium text-white transition-all duration-200",
+                            "hover:shadow-[0_0_20px_var(--orange-glow)]",
+                            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange",
+                        ].join(" ")}
                     >
                         Start Your Growth Here
                     </Link>

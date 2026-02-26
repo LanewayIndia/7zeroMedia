@@ -239,7 +239,7 @@ const JOBS: Job[] = [
 /* ─── Shared input class ─────────────────────────────────────────────────── */
 
 const inputBase =
-    "w-full p-4 rounded-lg border border-[#111111]/10 bg-white text-[#111111] placeholder-[#111111]/35 outline-none transition-colors duration-200 focus:border-[#F97316] focus-visible:ring-2 focus-visible:ring-[#F97316]/40 focus-visible:ring-offset-1"
+    "w-full p-4 rounded-lg border border-border bg-bg text-text placeholder-text-soft/60 outline-none transition-colors duration-200 focus:border-orange focus-visible:ring-2 focus-visible:ring-orange/40 focus-visible:ring-offset-1"
 
 /* ─── URL validator ──────────────────────────────────────────────────────── */
 
@@ -441,12 +441,12 @@ export default function Careers() {
     return (
         <section
             aria-label="Careers at 7ZeroMedia"
-            className="bg-white min-h-screen px-6 md:px-16 lg:px-24 py-32 text-[#111111]"
+            className="bg-bg min-h-screen px-6 md:px-16 lg:px-24 py-32 text-text"
         >
             {/* ── JOB LIST VIEW ────────────────────────────────────────────── */}
             {!selectedJob && (
                 <div className="max-w-5xl mx-auto">
-                    <span className="text-xs font-semibold tracking-[0.25em] uppercase text-[#F97316] mb-4 block">
+                    <span className="text-xs font-semibold tracking-[0.25em] uppercase text-orange mb-4 block">
                         Careers
                     </span>
 
@@ -454,7 +454,7 @@ export default function Careers() {
                         Join The Growth Engine
                     </h1>
 
-                    <p className="text-[#111111]/45 text-lg max-w-xl mb-20 leading-relaxed">
+                    <p className="text-text-soft text-lg max-w-xl mb-20 leading-relaxed">
                         We&apos;re building a team of operators, strategists, and creators.
                         Explore open roles below and become part of the system.
                     </p>
@@ -474,10 +474,10 @@ export default function Careers() {
                                         openJob(job)
                                     }
                                 }}
-                                className="cursor-pointer bg-[#F8F8F8] border border-[#111111]/6 rounded-2xl p-8 hover:border-[#F97316]/30 hover:shadow-[0_8px_40px_rgba(249,115,22,0.08)] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316] focus-visible:ring-offset-2"
+                                className="cursor-pointer bg-surface border border-border rounded-2xl p-8 hover:border-orange/30 hover:shadow-[0_8px_40px_var(--orange-muted)] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2"
                             >
                                 <h2 className="text-2xl font-bold">{job.title}</h2>
-                                <p className="text-sm text-[#111111]/45 mt-1">
+                                <p className="text-sm text-text-soft mt-1">
                                     {job.type} • {job.location}
                                 </p>
                             </div>
@@ -495,22 +495,22 @@ export default function Careers() {
                         <button
                             type="button"       /* CRITICAL: was defaulting to "submit" */
                             onClick={goBack}
-                            className="flex items-center gap-2 text-sm text-[#F97316] mb-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316] rounded"
+                            className="flex items-center gap-2 text-sm text-orange mb-10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange rounded"
                         >
                             <ArrowLeft size={16} aria-hidden="true" />
                             Back to openings
                         </button>
 
                         <h1 className="text-4xl font-bold mb-3">{selectedJob.title}</h1>
-                        <p className="text-sm text-[#111111]/45 mb-8">
+                        <p className="text-sm text-text-soft mb-8">
                             {selectedJob.type} • {selectedJob.location}
                         </p>
 
-                        <div className="space-y-8 text-[#111111]/60 leading-relaxed">
+                        <div className="space-y-8 text-text-soft leading-relaxed">
                             <p>{selectedJob.intro}</p>
 
                             <div>
-                                <h2 className="font-semibold text-[#111111] mb-3">Tech Stack Required</h2>
+                                <h2 className="font-semibold text-text mb-3">Tech Stack Required</h2>
                                 <ul className="list-disc ml-6 space-y-1" role="list">
                                     {selectedJob.tech.map((item, i) => (
                                         <li key={i}>{item}</li>
@@ -519,7 +519,7 @@ export default function Careers() {
                             </div>
 
                             <div>
-                                <h2 className="font-semibold text-[#111111] mb-3">Key Responsibilities</h2>
+                                <h2 className="font-semibold text-text mb-3">Key Responsibilities</h2>
                                 <ul className="list-disc ml-6 space-y-1" role="list">
                                     {selectedJob.responsibilities.map((item, i) => (
                                         <li key={i}>{item}</li>
@@ -528,7 +528,7 @@ export default function Careers() {
                             </div>
 
                             <div>
-                                <h2 className="font-semibold text-[#111111] mb-3">What We Expect From You</h2>
+                                <h2 className="font-semibold text-text mb-3">What We Expect From You</h2>
                                 <ul className="list-disc ml-6 space-y-1" role="list">
                                     {selectedJob.expectations.map((item, i) => (
                                         <li key={i}>{item}</li>
@@ -539,34 +539,34 @@ export default function Careers() {
                     </div>
 
                     {/* ── RIGHT — Application form ──────────────────────── */}
-                    <div className="bg-[#F8F8F8] border border-[#111111]/6 rounded-2xl p-10 shadow-sm">
+                    <div className="bg-surface border border-border rounded-2xl p-10 shadow-sm">
 
                         <h2 className="text-2xl font-bold mb-8">Apply for this position</h2>
 
                         {/* ── Success state ─────────────────────────────── */}
                         {status === "success" ? (
                             <div role="status" aria-live="polite" className="text-center py-12">
-                                <div aria-hidden="true" className="w-14 h-14 rounded-full bg-[#F97316]/10 flex items-center justify-center mb-5 mx-auto">
+                                <div aria-hidden="true" className="w-14 h-14 rounded-full bg-orange-muted flex items-center justify-center mb-5 mx-auto">
                                     <CheckCircle2
                                         size={26}
                                         aria-hidden="true"
-                                        className="text-[#F97316]"
+                                        className="text-orange"
                                     />
                                 </div>
                                 <h3
                                     ref={successHeadRef}
                                     tabIndex={-1}
-                                    className="text-xl font-bold text-[#111111] mb-3 focus:outline-none"
+                                    className="text-xl font-bold text-text mb-3 focus:outline-none"
                                 >
                                     Application submitted.
                                 </h3>
-                                <p className="text-[#111111]/50 text-sm leading-relaxed max-w-xs mx-auto">
+                                <p className="text-text-soft text-sm leading-relaxed max-w-xs mx-auto">
                                     We&apos;ve received your application and will review it shortly. We&apos;ll be in touch!
                                 </p>
                                 <button
                                     type="button"
                                     onClick={goBack}
-                                    className="mt-8 text-sm text-[#F97316] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316] rounded"
+                                    className="mt-8 text-sm text-orange hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange rounded"
                                 >
                                     View other openings
                                 </button>
@@ -597,7 +597,7 @@ export default function Careers() {
 
                                 {/* ── Full Name ── */}
                                 <div className="space-y-1">
-                                    <label htmlFor={fid("name")} className="text-xs font-medium text-[#111111]/50 uppercase tracking-wider">
+                                    <label htmlFor={fid("name")} className="text-xs font-medium text-text-soft uppercase tracking-wider">
                                         Full Name <span aria-hidden="true">*</span>
                                     </label>
                                     <input
@@ -757,7 +757,7 @@ export default function Careers() {
                                             ? <p id={fid("about-err")} role="alert" className="text-xs text-red-500">{errors.about}</p>
                                             : <span />
                                         }
-                                        <p id={fid("about-count")} className="text-xs text-[#111111]/40 ml-auto">
+                                        <p id={fid("about-count")} className="text-xs text-text-soft ml-auto">
                                             {formData.about.length}/1000
                                         </p>
                                     </div>
@@ -775,22 +775,22 @@ export default function Careers() {
                                         className={`flex flex-col items-center justify-center border-2 border-dashed rounded-xl p-8 cursor-pointer transition-all ${fileError
                                             ? "border-red-400 bg-red-50"
                                             : selectedFile
-                                                ? "border-[#F97316]/60 bg-[#F97316]/5"
-                                                : "border-[#111111]/15 hover:border-[#F97316]/40"
+                                                ? "border-orange/60 bg-orange-muted"
+                                                : "border-border hover:border-orange/40"
                                             }`}
                                     >
                                         <UploadCloud
                                             size={28}
                                             aria-hidden="true"
-                                            className={`mb-3 ${fileError ? "text-red-400" : "text-[#F97316]"}`}
+                                            className={`mb-3 ${fileError ? "text-red-400" : "text-orange"}`}
                                         />
-                                        <span className="text-sm text-[#111111]/50">
+                                        <span className="text-sm text-text-soft">
                                             {selectedFile
                                                 ? "File selected — click to change"
                                                 : "Drag & drop your CV here or click to upload"
                                             }
                                         </span>
-                                        <span className="text-xs text-[#111111]/40 mt-1">
+                                        <span className="text-xs text-text-soft mt-1">
                                             PDF, DOC, DOCX — max 5 MB
                                         </span>
                                         <input
@@ -809,7 +809,7 @@ export default function Careers() {
 
                                     {/* File selected name */}
                                     {selectedFile && !fileError && (
-                                        <p className="text-sm text-[#111111]/60 mt-3" aria-live="polite">
+                                        <p className="text-sm text-text-soft mt-3" aria-live="polite">
                                             Selected: <strong>{selectedFile.name}</strong> ({(selectedFile.size / 1024).toFixed(0)} KB)
                                         </p>
                                     )}
@@ -828,7 +828,7 @@ export default function Careers() {
                                     disabled={status === "loading"}
                                     aria-disabled={status === "loading"}
                                     aria-label={status === "loading" ? "Submitting your application…" : "Submit Application"}
-                                    className="mt-2 bg-[#F97316] text-white py-4 rounded-xl font-semibold hover:bg-[#ea6c0a] transition-all duration-200 hover:shadow-[0_10px_40px_rgba(249,115,22,0.3)] disabled:opacity-70 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F97316] focus-visible:ring-offset-2 flex items-center justify-center gap-2"
+                                    className="mt-2 bg-orange text-white py-4 rounded-xl font-semibold hover:bg-orange-hover transition-all duration-200 hover:shadow-[0_10px_40px_var(--orange-muted)] disabled:opacity-70 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-2 flex items-center justify-center gap-2"
                                 >
                                     {status === "loading" ? (
                                         <>

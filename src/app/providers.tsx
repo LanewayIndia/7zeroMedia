@@ -1,22 +1,30 @@
 "use client"
 
 // src/app/providers.tsx
+//
+// Client-side provider tree.
+// Wraps the app in:
+//   1. next-themes ThemeProvider — manages .dark class on <html>
+//   2. Redux Provider            — global UI / form / careers state
+//
+// Both providers must be "use client". Keeping them here lets
+// layout.tsx remain a pure Server Component (metadata, JSON-LD, fonts).
 
-/**
- * ReduxProvider — wraps the app in the Redux <Provider>.
- *
- * This must be a "use client" component because Redux store relies on
- * browser-side React context. It is intentionally separate from layout.tsx
- * so that layout.tsx can remain a pure Server Component (keeping metadata,
- * JSON-LD, and font optimisations intact).
- *
- * Usage: wrap only what needs Redux access — in this project that's the
- * entire <body> subtree, so we wrap it here at the layout level.
- */
-
+import { ThemeProvider } from "next-themes"
 import { Provider } from "react-redux"
 import { store } from "@/store/store"
 
-export default function ReduxProvider({ children }: { children: React.ReactNode }) {
-    return <Provider store={store}>{children}</Provider>
+export default function Providers({ children }: { children: React.ReactNode }) {
+    return (
+        <ThemeProvider
+            attribute="class"       // Applies `class="dark"` to <html>
+            defaultTheme="dark"     // Default: dark mode
+            enableSystem={false}    // Ignore OS preference — explicit toggle only
+            disableTransitionOnChange={false} // Allow smooth CSS transitions
+        >
+            <Provider store={store}>
+                {children}
+            </Provider>
+        </ThemeProvider>
+    )
 }

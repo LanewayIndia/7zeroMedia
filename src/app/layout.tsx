@@ -31,7 +31,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.7zero.media"
 // Shared OG image used as the global fallback across every page.
 // Individual pages can override by exporting their own `metadata.openGraph.images`.
 const OG_IMAGE = {
-  url: `${BASE_URL}/og-image.png`,   // 1200×630 PNG (see: public/og-image.png)
+  url: `${BASE_URL}/logo.png`,   // 1200×630 PNG (see: public/og-image.png)
   width: 1200,
   height: 630,
   alt: "7ZeroMedia — AI-Powered Media & Marketing Agency",

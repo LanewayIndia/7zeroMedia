@@ -324,7 +324,7 @@ export default function About() {
             style={{ transformStyle: "preserve-3d" }}
           >
             <video
-              src="/about-video1.mp4"
+              src="/about-video.mp4"
               controls
               loop
               playsInline

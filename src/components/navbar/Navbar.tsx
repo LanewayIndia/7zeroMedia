@@ -152,7 +152,7 @@ export default function Navbar() {
                         width={64}
                         height={64}
                         priority
-                        className="rounded-full shadow-sm"
+                        className="shadow-sm"
                     />
                 </Link>
             </div>

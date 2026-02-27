@@ -93,7 +93,7 @@ export default function Footer() {
         <footer
             ref={footerRef}
             aria-label="Site footer"
-            className="relative border-t border-border bg-surface px-6 md:px-12 lg:px-20 py-12 md:py-16"
+            className="relative border-t border-border bg-bg px-6 md:px-12 lg:px-20 py-12 md:py-16"
         >
             {/* Top accent line */}
             <div
@@ -117,7 +117,7 @@ export default function Footer() {
                                 alt="7ZeroMedia logo"
                                 width={100}
                                 height={100}
-                                className="w-auto h-10 rounded-full"
+                                className="w-auto h-10"
                             />
                         </span>
                     </Link>

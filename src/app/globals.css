@@ -23,7 +23,7 @@
   --bg: #ffffff;
   --surface: #f8f8f8;
   --elevated: #ffffff;
-  --ink: #111111; /* always-dark surface, e.g. Blueprint section */
+  --ink: #000; /* always-dark surface, e.g. Blueprint section */
 
   /* Typography */
   --text: #111111;
@@ -78,10 +78,10 @@
 /* ── DARK THEME ──────────────────────────────────────────────── */
 .dark {
   /* Surfaces */
-  --bg: #0f0f11;
+  --bg: #000;
   --surface: #18181b;
   --elevated: #1f1f23;
-  --ink: #000000;
+  --ink: #0F0F11;
 
   /* Typography */
   --text: #f4f4f5;

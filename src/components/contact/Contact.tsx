@@ -363,7 +363,7 @@ export default function Contact() {
     return (
         <div
             ref={sectionRef}
-            className="relative min-h-screen bg-surface overflow-hidden px-5 md:px-12 lg:px-20 py-24 md:py-32"
+            className="relative min-h-screen bg-bg overflow-hidden px-5 md:px-12 lg:px-20 py-24 md:py-32"
         >
             {/* Decorative backgrounds — aria-hidden, pointer-events-none */}
             <div aria-hidden="true" className="absolute inset-0 pointer-events-none select-none">
@@ -372,8 +372,8 @@ export default function Contact() {
                     ref={glowOrbRef}
                     className="absolute top-20 right-[-10%] rounded-full"
                     style={{
-                        width: "min(500px, 80vw)",
-                        height: "min(500px, 80vw)",
+                        width: "min(900px, 80vw)",
+                        height: "min(900px, 80vw)",
                         background:
                             "radial-gradient(circle, var(--orange-muted) 0%, var(--orange-muted) 50%, transparent 70%)",
                         filter: "blur(40px)",

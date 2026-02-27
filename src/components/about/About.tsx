@@ -77,6 +77,7 @@ export default function About() {
   const sectionRef = useRef<HTMLElement>(null)
   const headingRef = useRef<HTMLHeadingElement>(null)
   const videoRef = useRef<HTMLDivElement>(null)
+  const glowOrbRef = useRef<HTMLDivElement>(null)
 
   // ── rAF-throttled tilt state ──────────────────────────────────────────
   // Stored in refs so the rAF callback always reads the latest values
@@ -138,6 +139,21 @@ export default function About() {
         ease: "power3.out",
         clearProps: "transform,opacity,willChange",
       })
+
+      if (glowOrbRef.current) {
+        gsap.to(glowOrbRef.current, {
+          y: -80,
+          ease: "none",
+          clearProps: "transform",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.5,          // smoothed scrub — less jitter, less GPU strain
+            invalidateOnRefresh: true,
+          },
+        })
+      }
 
       // Animate split lines if available
       if (split?.lines?.length) {
@@ -264,7 +280,7 @@ export default function About() {
       ref={sectionRef}
       id="about"
       aria-label="About 7ZeroMedia"
-      className="bg-surface text-text py-16 md:py-24 lg:py-28 px-6 md:px-8"
+      className="bg-bg text-text py-16 md:py-24 lg:py-28 px-6 md:px-8"
     >
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
 
@@ -304,6 +320,20 @@ export default function About() {
           </button>
         </div>
 
+        {/* Primary glow orb — parallax animated */}
+        <div
+          ref={glowOrbRef}
+          className="absolute top-20 right-[-10%] rounded-full"
+          style={{
+            width: "min(900px, 80vw)",
+            height: "min(900px, 80vw)",
+            background:
+              "radial-gradient(circle, var(--orange-muted) 0%, var(--orange-muted) 50%, transparent 70%)",
+            filter: "blur(40px)",
+            willChange: "transform",
+          }}
+        />
+
         {/* ── RIGHT — Video ─────────────────────────────────────── */}
         <div className="relative">
           {/* Glow — decorative, not read by screen readers */}
@@ -324,7 +354,7 @@ export default function About() {
             style={{ transformStyle: "preserve-3d" }}
           >
             <video
-              src="/about-video.mp4"
+              src="/7ZeroMedia.gif"
               loop
               muted
               autoPlay
@@ -334,7 +364,7 @@ export default function About() {
               // Reduces bandwidth usage significantly on slow connections.
               preload="metadata"
               // poster: shown while video buffers; prevents blank box flash
-              poster="/thumbnail.jpg"
+              poster="/7ZeroMedia.gif"
               aria-hidden="true"   // decorative — content is conveyed by copy
               className="w-full h-64 sm:h-80 md:h-96 lg:h-[500px] object-cover"
             >

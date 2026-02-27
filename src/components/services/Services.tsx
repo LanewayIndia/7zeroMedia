@@ -253,57 +253,57 @@ export default function Services() {
 
                     // As row1 scrolls into the viewport, compress row0 backward
                     // scrub:1 = 1s of lag for perfect fluidity, no jitter
-                    gsap.fromTo(
-                        row0Ref.current,
-                        { scale: 1, y: 0, opacity: 1 },
-                        {
-                            scale: 0.92,
-                            y: -80,
-                            opacity: 0.5,
-                            ease: "none",   // linear so scrub tracks 1-to-1
-                            scrollTrigger: {
-                                trigger: row1Ref.current,
-                                start: "top 75%",
-                                end: "top 20%",
-                                scrub: 1.2,
-                                invalidateOnRefresh: true,
-                            },
-                        }
-                    )
+                    // gsap.fromTo(
+                    //     row0Ref.current,
+                    //     { scale: 1, y: 0, opacity: 1 },
+                    //     {
+                    //         scale: 0.92,
+                    //         y: -80,
+                    //         opacity: 0.5,
+                    //         ease: "none",   // linear so scrub tracks 1-to-1
+                    //         scrollTrigger: {
+                    //             trigger: row1Ref.current,
+                    //             start: "top 75%",
+                    //             end: "top 20%",
+                    //             scrub: 1.2,
+                    //             invalidateOnRefresh: true,
+                    //         },
+                    //     }
+                    // )
 
                     // Row1 rises FROM slightly below into final position (depth reveal)
-                    gsap.fromTo(
-                        row1Ref.current,
-                        { y: 40, scale: 0.98 },
-                        {
-                            y: 0,
-                            scale: 1,
-                            ease: "none",
-                            scrollTrigger: {
-                                trigger: row1Ref.current,
-                                start: "top 80%",
-                                end: "top 30%",
-                                scrub: 1.2,
-                                invalidateOnRefresh: true,
-                            },
-                        }
-                    )
+                    // gsap.fromTo(
+                    //     row1Ref.current,
+                    //     { y: 40, scale: 0.98 },
+                    //     {
+                    //         y: 0,
+                    //         scale: 1,
+                    //         ease: "none",
+                    //         scrollTrigger: {
+                    //             trigger: row1Ref.current,
+                    //             start: "top 80%",
+                    //             end: "top 30%",
+                    //             scrub: 1.2,
+                    //             invalidateOnRefresh: true,
+                    //         },
+                    //     }
+                    // )
 
                     // Cleanup: revert inline styles added above
-                    return () => {
-                        if (stackWrapRef.current) {
-                            stackWrapRef.current.style.perspective = ""
-                            stackWrapRef.current.style.perspectiveOrigin = ""
-                        }
-                        if (row0Ref.current) {
-                            row0Ref.current.style.zIndex = ""
-                            gsap.set(row0Ref.current, { clearProps: "transform,opacity,willChange,zIndex" })
-                        }
-                        if (row1Ref.current) {
-                            row1Ref.current.style.zIndex = ""
-                            gsap.set(row1Ref.current, { clearProps: "transform,opacity,willChange,zIndex" })
-                        }
-                    }
+                    // return () => {
+                    //     if (stackWrapRef.current) {
+                    //         stackWrapRef.current.style.perspective = ""
+                    //         stackWrapRef.current.style.perspectiveOrigin = ""
+                    //     }
+                    //     if (row0Ref.current) {
+                    //         row0Ref.current.style.zIndex = ""
+                    //         gsap.set(row0Ref.current, { clearProps: "transform,opacity,willChange,zIndex" })
+                    //     }
+                    //     if (row1Ref.current) {
+                    //         row1Ref.current.style.zIndex = ""
+                    //         gsap.set(row1Ref.current, { clearProps: "transform,opacity,willChange,zIndex" })
+                    //     }
+                    // }
                 },
 
                 // ── MOBILE / TABLET (<1024px) — simple fade/slide ────────────────────
@@ -415,43 +415,43 @@ export default function Services() {
             ══════════════════════════════════════════ */}
             <section
                 aria-label="Services hero"
-                className="relative overflow-hidden px-6 md:px-16 lg:px-24 pt-28 md:pt-36 pb-12 md:pb-16 bg-bg"
+                className="relative flex items-center justify-center overflow-hidden min-h-screen px-6 md:px-16 lg:px-24 py-0 bg-bg"
             >
                 {/* Decorative backgrounds — aria-hidden, never focusable */}
                 <div aria-hidden="true" className="absolute inset-0 pointer-events-none select-none">
-                    <div
+                    {/* <div
                         className="absolute inset-0 opacity-[0.025]"
                         style={{
                             backgroundImage:
                                 "linear-gradient(var(--text) 1px, transparent 1px), linear-gradient(90deg, var(--text) 1px, transparent 1px)",
                             backgroundSize: "60px 60px",
                         }}
-                    />
+                    /> */}
                     {/* Glow capped with min() — never causes horizontal overflow */}
                     <div
-                        className="absolute top-0 right-0 rounded-full"
+                        className="absolute top-10 right-0 z-10 rounded-full"
                         style={{
-                            width: "min(500px, 80vw)",
-                            height: "min(500px, 80vw)",
-                            background: "radial-gradient(circle, var(--orange-muted) 0%, transparent 65%)",
+                            width: "min(700px, 80vw)",
+                            height: "min(700px, 80vw)",
+                            background: "radial-gradient(circle, var(--orange-muted) 0%, transparent 85%)",
                         }}
                     />
                 </div>
 
-                <div className="relative max-w-7xl mx-auto">
+                <div className="relative max-w-7xl mx-auto w-full">
                     {/* Eyebrow */}
                     <span
                         ref={pageTagRef}
                         className="flex items-center gap-2 text-xs font-bold tracking-[0.25em] uppercase text-orange mb-6"
                     >
                         <span aria-hidden="true" className="w-1.5 h-1.5 rounded-full bg-orange" />
-                        Our Services | What We Build
+                        Our Services
                     </span>
 
                     {/* H1 — only one per page */}
                     <h1
                         ref={pageHeadRef}
-                        className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-text leading-[1.04] tracking-tight max-w-3xl mb-6"
+                        className="text-7xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-text leading-[1.04] tracking-tight max-w-3xl mb-6"
                     >
                         Growth Systems
                         <br />
@@ -490,7 +490,7 @@ export default function Services() {
                 aria-label="Our growth systems"
                 className="px-6 md:px-4 lg:px-8 pb-12"
             >
-                <div className="max-w-7xl mx-auto">
+                <div className="max-w-7xl mx-auto w-full h-full">
 
                     {/* ── 6-card grid
                         stackWrapRef: receives perspective for 3D depth illusion.
@@ -504,12 +504,12 @@ export default function Services() {
                         className="relative"
                         style={{ transformStyle: "preserve-3d" }}
                     >
-                        {/* Row 0 — cards 0, 1, 2 */}
+                        {/* Row animation is commented out */}
                         <div
                             ref={row0Ref}
-                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-5"
+                            className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-5 h-full"
                         >
-                            {SERVICES.slice(0, 3).map((service) => {
+                            {SERVICES.slice(0, 6).map((service) => {
                                 const Icon = service.icon
                                 return (
                                     <article
@@ -547,8 +547,8 @@ export default function Services() {
                             })}
                         </div>
 
-                        {/* Row 1 — cards 3, 4, 5 */}
-                        <div
+                        {/* Row 1 — cards 3, 4, 5 -> This animation is commented out*/}
+                        {/* <div
                             ref={row1Ref}
                             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
                         >
@@ -588,7 +588,7 @@ export default function Services() {
                                     </article>
                                 )
                             })}
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </section>
@@ -596,13 +596,13 @@ export default function Services() {
             {/* ══════════════════════════════════════════
                 AI BLUEPRINT — DARK SECTION
             ══════════════════════════════════════════ */}
-            <section
+            {/* <section
                 ref={blueprintRef}
                 aria-label="AI Marketing Audit & Growth Blueprint"
                 className="relative bg-ink overflow-hidden px-6 md:px-16 lg:px-24 py-24 md:py-32"
-            >
+            > */}
                 {/* Decorative backgrounds */}
-                <div aria-hidden="true" className="absolute inset-0 pointer-events-none select-none">
+                {/* <div aria-hidden="true" className="absolute inset-0 pointer-events-none select-none">
                     <div
                         className="absolute inset-0 opacity-[0.04]"
                         style={{
@@ -610,8 +610,8 @@ export default function Services() {
                                 "linear-gradient(rgba(255,255,255,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.8) 1px, transparent 1px)",
                             backgroundSize: "60px 60px",
                         }}
-                    />
-                    <div
+                    /> */}
+                    {/* <div
                         className="absolute top-0 right-0 rounded-full"
                         style={{
                             width: "min(600px, 80vw)",
@@ -619,13 +619,13 @@ export default function Services() {
                             background: "radial-gradient(circle, var(--orange-muted) 0%, transparent 60%)",
                         }}
                     />
-                </div>
+                </div> */}
 
-                <div className="relative max-w-7xl mx-auto">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                {/* <div className="relative max-w-7xl mx-auto">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center"> */}
 
                         {/* Left copy */}
-                        <div>
+                        {/* <div>
                             <span className="text-xs font-bold tracking-[0.25em] uppercase text-orange mb-6 block">
                                 AI Service — Intelligence Layer
                             </span>
@@ -650,10 +650,10 @@ export default function Services() {
                                 Coming Soon
                                 <ArrowRight size={16} aria-hidden="true" />
                             </Link>
-                        </div>
+                        </div> */}
 
                         {/* Right — AI flow diagram */}
-                        <div className="flex flex-col gap-3">
+                        {/* <div className="flex flex-col gap-3">
                             {AUDIT_STEPS.map((item, i) => (
                                 <div
                                     key={item.step}
@@ -669,9 +669,9 @@ export default function Services() {
                                     <div className="flex-1 min-w-0">
                                         <p className="text-sm font-semibold text-white mb-0.5">{item.label}</p>
                                         <p className="text-xs text-white/40 leading-relaxed">{item.desc}</p>
-                                    </div>
+                                    </div> */}
                                     {/* Connector arrow — decorative */}
-                                    {i < AUDIT_STEPS.length - 1 && (
+                                    {/* {i < AUDIT_STEPS.length - 1 && (
                                         <ChevronRight size={14} aria-hidden="true" className="text-white/15 shrink-0" />
                                     )}
                                 </div>
@@ -686,7 +686,7 @@ export default function Services() {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section> */}
 
             {/* ══════════════════════════════════════════
                 PROCESS SECTION

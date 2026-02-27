@@ -354,7 +354,7 @@ export default function About() {
             style={{ transformStyle: "preserve-3d" }}
           >
             <video
-              src="/7ZeroMedia.mp4"
+              src="/7zeroMedia.mp4"
               loop
               muted
               autoPlay
@@ -364,7 +364,7 @@ export default function About() {
               // Reduces bandwidth usage significantly on slow connections.
               preload="metadata"
               // poster: shown while video buffers; prevents blank box flash
-              // poster="/logo.png"
+              poster="/logo.png"
               aria-hidden="true"   // decorative — content is conveyed by copy
               className="w-full h-64 sm:h-80 md:h-96 lg:h-[500px] object-cover"
             >

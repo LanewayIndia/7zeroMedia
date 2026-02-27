@@ -336,7 +336,7 @@ export default function About() {
               // poster: shown while video buffers; prevents blank box flash
               poster="/thumbnail.jpg"
               aria-hidden="true"   // decorative — content is conveyed by copy
-              className="w-full h-64 sm:h-80 md:h-96 lg:h-[500px] object-cover"
+              className="w-full h-64 sm:h-80 md:h-96 lg:h-125 object-cover"
             >
               {/* Accessible fallback for screen readers and no-video environments */}
               <p>

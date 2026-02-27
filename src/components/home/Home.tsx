@@ -56,21 +56,21 @@ export default function Hero() {
                 className="absolute inset-0 pointer-events-none overflow-hidden select-none"
             >
                 {/* Grid lines */}
-                <div
+                {/* <div
                     className="absolute inset-0 opacity-[0.03]"
                     style={{
                         backgroundImage:
                             "linear-gradient(var(--text) 1px, transparent 1px), linear-gradient(90deg, var(--text) 1px, transparent 1px)",
                         backgroundSize: "60px 60px",
                     }}
-                />
+                /> */}
                 {/* Orange ambient glow */}
                 <div
                     className="absolute top-[-10%] right-[-5%] rounded-full"
                     style={{
-                        width: "min(700px, 90vw)",
-                        height: "min(700px, 90vw)",
-                        background: "radial-gradient(circle, var(--orange-muted) 0%, transparent 65%)",
+                        width: "min(900px, 90vw)",
+                        height: "min(900px, 90vw)",
+                        background: "radial-gradient(circle, var(--orange-muted) 0%, transparent 95%)",
                         willChange: "transform",
                     }}
                 />
